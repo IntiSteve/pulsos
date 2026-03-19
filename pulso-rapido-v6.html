@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pulso Retail — Diagnóstico para tu Cocina · Inti Horizons IA</title>
+<title>Pulso Rápido — Diagnóstico de Negocio · Inti Horizons IA</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -418,19 +418,36 @@
     position: relative; z-index: 1;
   }
   .footer-note .brand { color: var(--gold-dark); font-weight: 500; letter-spacing: 1px; }
+
+  /* Voice output */
+  .voice-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 13px 20px;
+    background: rgba(212,175,55,0.06);
+    border: 1px solid rgba(212,175,55,0.22);
+    border-radius: var(--radius-sm);
+    color: var(--gold); font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; margin-bottom: 12px;
+  }
+  .voice-btn:hover { background: rgba(212,175,55,0.12); border-color: rgba(212,175,55,0.4); }
+  .voice-btn.speaking { background: rgba(212,175,55,0.14); border-color: var(--gold); }
+  .voice-btn .voice-icon { font-size: 18px; flex-shrink: 0; }
+  .voice-btn .voice-label { flex: 1; text-align: left; }
+  .voice-btn .voice-stop { font-size: 11px; color: var(--text-muted); }
 </style>
 
 <!-- Open Graph / WhatsApp -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://intisteve.github.io/pulsos/pulso-retail.html" />
-<meta property="og:title" content="Diagnóstico para Retail & Comercio — Inti Horizons IA" />
+<meta property="og:url" content="https://intisteve.github.io/pulsos/pulso-rapido-v6.html" />
+<meta property="og:title" content="Diagnóstico Rápido para tu Negocio — Inti Horizons IA" />
 <meta property="og:description" content="¿Algo no está funcionando? Un pulso rápido puede revelar qué. 7 preguntas · Sin rodeos · Sin costo." />
 <meta property="og:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <!-- Twitter card (WhatsApp fallback) -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Diagnóstico para Retail & Comercio — Inti Horizons IA" />
+<meta name="twitter:title" content="Diagnóstico Rápido para tu Negocio — Inti Horizons IA" />
 <meta name="twitter:description" content="¿Algo no está funcionando? Un pulso rápido puede revelar qué. 7 preguntas · Sin rodeos · Sin costo." />
 <meta name="twitter:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
 </head>
@@ -451,26 +468,26 @@
   </div>
 
   <div style="max-width:480px;width:100%;padding:20px 24px 0;position:relative;z-index:1;animation:fadeUp 0.5s ease forwards">
-    <div class="demo-label-inline">✦ Demostración pre-estructurada · Retail & Comercio</div>
-    <h1 class="welcome-title">¿Tu tienda vende todo lo que <em>podría</em> vender?</h1>
+    <div class="demo-label-inline">✦ Demostración pre-estructurada — muestra lo que la IA puede hacer</div>
+    <h1 class="welcome-title">¿Cuál es el <em>verdadero pulso</em> de tu negocio?</h1>
 
     <div class="biz-name-wrap">
-      <label class="biz-name-label" for="bizName">¿Cómo se llama tu tienda o comercio? <span style="color:var(--text-muted)">(opcional)</span></label>
-      <input type="text" id="bizName" class="biz-name-input" placeholder="Ej: Ferretería El Constructor, Minimarket La Esquina..." maxlength="60" autocomplete="off">
+      <label class="biz-name-label" for="bizName">¿Cómo se llama tu negocio? <span style="color:var(--text-muted)">(opcional)</span></label>
+      <input type="text" id="bizName" class="biz-name-input" placeholder="Ej: Panadería San Sebastián..." maxlength="60" autocomplete="off">
     </div>
 
-    <p class="welcome-desc">7 preguntas diseñadas para tiendas, ferreterías y comercios en Ecuador. Diagnóstico inicial de los puntos de dolor más frecuentes en retail — y lo que la IA puede resolver.</p>
+    <p class="welcome-desc">Responde 7 preguntas rápidas y recibe un diagnóstico inicial de los principales puntos de dolor en tu negocio — y cómo la IA puede ayudar.</p>
 
     <div class="demo-notice">
       <div class="demo-notice-icon">💡</div>
       <div class="demo-notice-text">
-        <strong>Esto es una demostración pre-estructurada</strong> — diseñada para mostrarte el tipo de análisis que la IA puede hacer con un negocio de retail. Las respuestas son representativas de comercios similares, no de tu operación específica.
+        <strong>Esto es una demostración pre-estructurada</strong> — diseñada para mostrarte el tipo de análisis que la IA puede hacer, no para reemplazar un diagnóstico real. Las respuestas que verás son representativas de negocios similares al tuyo, no de tu negocio específico.
       </div>
     </div>
 
     <div class="welcome-meta">
       <div class="meta-item"><span>🕐</span> 3–4 minutos</div>
-      <div class="meta-item"><span>🏪</span> Solo retail & comercio</div>
+      <div class="meta-item"><span>❓</span> 7 preguntas</div>
       <div class="meta-item"><span>🔒</span> Sin registro obligatorio</div>
     </div>
 
@@ -492,27 +509,29 @@
 <!-- STEPS -->
 <div class="content" id="stepsContent" style="display:none">
 
-  <!-- Q1: Retail sub-type -->
+  <!-- Q1: Sector -->
   <div class="step active" id="step1">
-    <div class="step-q">¿Qué tipo de comercio tienes?</div>
-    <div class="step-hint">Cada tipo de tienda tiene sus propios desafíos</div>
+    <div class="step-q">¿A qué se dedica tu negocio?</div>
+    <div class="step-hint">Elige el que más se parece</div>
     <div class="options-grid">
-      <div class="opt" data-val="ferreteria" onclick="selectSingle(this,'sector')"><span class="opt-icon">🔨</span><div class="opt-label">Ferretería / materiales</div></div>
-      <div class="opt" data-val="minimarket" onclick="selectSingle(this,'sector')"><span class="opt-icon">🛒</span><div class="opt-label">Minimarket / abarrotes</div></div>
-      <div class="opt" data-val="ropa" onclick="selectSingle(this,'sector')"><span class="opt-icon">👗</span><div class="opt-label">Ropa / calzado / accesorios</div></div>
-      <div class="opt" data-val="electrodomesticos" onclick="selectSingle(this,'sector')"><span class="opt-icon">📺</span><div class="opt-label">Electrodomésticos / tecnología</div></div>
-      <div class="opt" data-val="distribuidora" onclick="selectSingle(this,'sector')"><span class="opt-icon">📦</span><div class="opt-label">Distribuidora / mayorista</div></div>
-      <div class="opt" data-val="otro" onclick="selectSingle(this,'sector')"><span class="opt-icon">🏪</span><div class="opt-label">Otro tipo de comercio</div></div>
+      <div class="opt" data-val="restaurante" onclick="selectSingle(this,'sector')"><span class="opt-icon">🍽️</span><div class="opt-label">Restaurante / Cafetería</div></div>
+      <div class="opt" data-val="tienda" onclick="selectSingle(this,'sector')"><span class="opt-icon">🏪</span><div class="opt-label">Tienda / Minimarket / Ferretería</div></div>
+      <div class="opt" data-val="taller" onclick="selectSingle(this,'sector')"><span class="opt-icon">🔧</span><div class="opt-label">Taller / Automotriz</div></div>
+      <div class="opt" data-val="salud" onclick="selectSingle(this,'sector')"><span class="opt-icon">🏥</span><div class="opt-label">Clínica / Farmacia / Salud</div></div>
+      <div class="opt" data-val="construccion" onclick="selectSingle(this,'sector')"><span class="opt-icon">🏗️</span><div class="opt-label">Construcción / Industria</div></div>
+      <div class="opt" data-val="transporte" onclick="selectSingle(this,'sector')"><span class="opt-icon">🚚</span><div class="opt-label">Transporte / Distribuidora</div></div>
+      <div class="opt" data-val="educacion" onclick="selectSingle(this,'sector')"><span class="opt-icon">🎓</span><div class="opt-label">Educación / Servicios Profesionales</div></div>
+      <div class="opt" data-val="otro" onclick="selectSingle(this,'sector')"><span class="opt-icon">💼</span><div class="opt-label">Otro tipo de negocio</div></div>
     </div>
     <button class="btn-next" id="next1" onclick="goStep(2)">SIGUIENTE →</button>
   </div>
 
   <!-- Q2: Size -->
   <div class="step" id="step2">
-    <div class="step-q">¿Cuántas personas trabajan en tu tienda?</div>
+    <div class="step-q">¿Cuántas personas trabajan contigo?</div>
     <div class="step-hint">Inclúyete tú</div>
     <div class="options-grid single">
-      <div class="opt" data-val="solo" onclick="selectSingle(this,'size')"><span class="opt-icon">👤</span><div class="opt-label">Solo yo — hago todo</div></div>
+      <div class="opt" data-val="solo" onclick="selectSingle(this,'size')"><span class="opt-icon">👤</span><div class="opt-label">Solo yo — llevo todo</div></div>
       <div class="opt" data-val="pequeno" onclick="selectSingle(this,'size')"><span class="opt-icon">👥</span><div class="opt-label">2 a 5 personas</div></div>
       <div class="opt" data-val="mediano" onclick="selectSingle(this,'size')"><span class="opt-icon">🏢</span><div class="opt-label">6 a 20 personas</div></div>
       <div class="opt" data-val="grande" onclick="selectSingle(this,'size')"><span class="opt-icon">🏭</span><div class="opt-label">Más de 20</div></div>
@@ -520,81 +539,71 @@
     <button class="btn-next" id="next2" onclick="goStep(3)">SIGUIENTE →</button>
   </div>
 
-  <!-- Q3: Pain points - retail specific (max 2) -->
+  <!-- Q3: Pain points (max 2) -->
   <div class="step" id="step3">
     <div class="step-q">¿Qué te quita más tiempo o te preocupa más?</div>
     <div class="step-hint">Puedes elegir hasta 2</div>
     <div class="pain-grid">
       <div class="pain-opt" data-val="inventario" onclick="selectPain(this)">
         <span class="pain-icon">📦</span>
-        <div class="pain-text"><div class="pain-title">Inventario y stock</div><div class="pain-sub">No sé exactamente qué tengo, me quedo sin productos o tengo demasiado</div></div>
+        <div class="pain-text"><div class="pain-title">Inventario y stock</div><div class="pain-sub">No sé exactamente qué tengo ni cuándo reponer</div></div>
         <div class="pain-check">✓</div>
       </div>
-      <div class="pain-opt" data-val="fiado" onclick="selectPain(this)">
+      <div class="pain-opt" data-val="cobros" onclick="selectPain(this)">
         <span class="pain-icon">💸</span>
-        <div class="pain-text"><div class="pain-title">Cobros y fiado</div><div class="pain-sub">Me deben, el crédito informal me descapitaliza, no cobro a tiempo</div></div>
+        <div class="pain-text"><div class="pain-title">Cobros y fiado</div><div class="pain-sub">Me deben, no cobro a tiempo, pierdo plata en créditos</div></div>
         <div class="pain-check">✓</div>
       </div>
       <div class="pain-opt" data-val="proveedores" onclick="selectPain(this)">
         <span class="pain-icon">🚛</span>
-        <div class="pain-text"><div class="pain-title">Proveedores y precios</div><div class="pain-sub">Comparar cotizaciones, hacer pedidos, negociar condiciones</div></div>
-        <div class="pain-check">✓</div>
-      </div>
-      <div class="pain-opt" data-val="clientes" onclick="selectPain(this)">
-        <span class="pain-icon">📱</span>
-        <div class="pain-text"><div class="pain-title">Clientes y ventas</div><div class="pain-sub">Atraer nuevos, retener los que tengo, competencia de precios</div></div>
+        <div class="pain-text"><div class="pain-title">Proveedores y compras</div><div class="pain-sub">Comparar precios, hacer pedidos, negociar condiciones</div></div>
         <div class="pain-check">✓</div>
       </div>
       <div class="pain-opt" data-val="personal" onclick="selectPain(this)">
         <span class="pain-icon">👥</span>
-        <div class="pain-text"><div class="pain-title">Personal y atención</div><div class="pain-sub">Turnos, ausencias, capacitación, errores en caja</div></div>
+        <div class="pain-text"><div class="pain-title">Personal y turnos</div><div class="pain-sub">Horarios, ausencias, pagos, conflictos con el equipo</div></div>
         <div class="pain-check">✓</div>
       </div>
-      <div class="pain-opt" data-val="costos" onclick="selectPain(this)">
-        <span class="pain-icon">📊</span>
-        <div class="pain-text"><div class="pain-title">No sé si realmente gano</div><div class="pain-sub">Sin claridad en márgenes reales, costos ocultos, qué productos convienen</div></div>
+      <div class="pain-opt" data-val="clientes" onclick="selectPain(this)">
+        <span class="pain-icon">📱</span>
+        <div class="pain-text"><div class="pain-title">Clientes y marketing</div><div class="pain-sub">Atraer nuevos, retener los que tengo, redes sociales</div></div>
+        <div class="pain-check">✓</div>
+      </div>
+      <div class="pain-opt" data-val="tiempo" onclick="selectPain(this)">
+        <span class="pain-icon">⏰</span>
+        <div class="pain-text"><div class="pain-title">Tiempo y administración</div><div class="pain-sub">Demasiadas tareas manuales, hacer cuentas, informes</div></div>
         <div class="pain-check">✓</div>
       </div>
     </div>
     <button class="btn-next" id="next3" onclick="goStep(4)">SIGUIENTE →</button>
   </div>
 
-  <!-- Q4: Current control method -->
+  <!-- Q4: Sales channel -->
   <div class="step" id="step4">
-    <div class="step-q">¿Cómo llevas el control de tu tienda ahora mismo?</div>
+    <div class="step-q">¿Cómo llegan tus clientes o pedidos principalmente?</div>
+    <div class="step-hint">El canal más frecuente</div>
+    <div class="options-grid">
+      <div class="opt" data-val="presencial" onclick="selectSingle(this,'channel')"><span class="opt-icon">🚶</span><div class="opt-label">En persona, al local</div></div>
+      <div class="opt" data-val="whatsapp" onclick="selectSingle(this,'channel')"><span class="opt-icon">💬</span><div class="opt-label">Por WhatsApp</div></div>
+      <div class="opt" data-val="telefono" onclick="selectSingle(this,'channel')"><span class="opt-icon">📞</span><div class="opt-label">Por teléfono</div></div>
+      <div class="opt" data-val="redes" onclick="selectSingle(this,'channel')"><span class="opt-icon">📲</span><div class="opt-label">Redes sociales</div></div>
+      <div class="opt" data-val="referidos" onclick="selectSingle(this,'channel')"><span class="opt-icon">🤝</span><div class="opt-label">Referidos / boca a boca</div></div>
+      <div class="opt" data-val="mixto" onclick="selectSingle(this,'channel')"><span class="opt-icon">🔀</span><div class="opt-label">Por varios canales</div></div>
+    </div>
+    <button class="btn-next" id="next4" onclick="goStep(5)">SIGUIENTE →</button>
+  </div>
+
+  <!-- Q5: Current control -->
+  <div class="step" id="step5">
+    <div class="step-q">¿Cómo llevas el control del negocio ahora mismo?</div>
     <div class="step-hint">Sin juicios — solo queremos entender de dónde partes</div>
     <div class="options-grid">
       <div class="opt" data-val="cuaderno" onclick="selectSingle(this,'control')"><span class="opt-icon">📔</span><div class="opt-label">Cuaderno o papel</div></div>
       <div class="opt" data-val="excel" onclick="selectSingle(this,'control')"><span class="opt-icon">📊</span><div class="opt-label">Excel o planilla</div></div>
       <div class="opt" data-val="app" onclick="selectSingle(this,'control')"><span class="opt-icon">📱</span><div class="opt-label">Una app o sistema</div></div>
-      <div class="opt" data-val="memoria" onclick="selectSingle(this,'control')"><span class="opt-icon">🧠</span><div class="opt-label">De memoria / estimación</div></div>
-      <div class="opt" data-val="nada" onclick="selectSingle(this,'control')"><span class="opt-icon">🤷</span><div class="opt-label">Todavía no tengo sistema</div></div>
+      <div class="opt" data-val="memoria" onclick="selectSingle(this,'control')"><span class="opt-icon">🧠</span><div class="opt-label">De memoria</div></div>
+      <div class="opt" data-val="nada" onclick="selectSingle(this,'control')"><span class="opt-icon">🤷</span><div class="opt-label">Todavía no tengo un sistema</div></div>
       <div class="opt" data-val="mixto" onclick="selectSingle(this,'control')"><span class="opt-icon">🔀</span><div class="opt-label">Una mezcla de todo</div></div>
-    </div>
-    <button class="btn-next" id="next4" onclick="goStep(5)">SIGUIENTE →</button>
-  </div>
-
-  <!-- Q5: Critical moment -->
-  <div class="step" id="step5">
-    <div class="step-q">¿Cuándo sientes más la presión en tu negocio?</div>
-    <div class="step-hint">El momento más crítico de tu semana o mes</div>
-    <div class="urgency-grid">
-      <div class="urgency-opt" data-val="quincena" onclick="selectSingle(this,'channel')">
-        <span style="font-size:18px;flex-shrink:0">📅</span>
-        <div class="urgency-text"><div class="urgency-label">Quincena y fin de mes — todo llega junto</div><div class="urgency-sub">Cobros, pagos a proveedores, nómina — todo al mismo tiempo</div></div>
-      </div>
-      <div class="urgency-opt" data-val="fin_semana" onclick="selectSingle(this,'channel')">
-        <span style="font-size:18px;flex-shrink:0">🏃</span>
-        <div class="urgency-text"><div class="urgency-label">Fines de semana — mucho movimiento, poco control</div><div class="urgency-sub">Cuando más clientes hay, más errores ocurren</div></div>
-      </div>
-      <div class="urgency-opt" data-val="proveedores_pico" onclick="selectSingle(this,'channel')">
-        <span style="font-size:18px;flex-shrink:0">🚛</span>
-        <div class="urgency-text"><div class="urgency-label">Cuando llegan los proveedores — caos de recepción</div><div class="urgency-sub">Verificar pedidos, precios, cantidades — sin tiempo para nada más</div></div>
-      </div>
-      <div class="urgency-opt" data-val="cierre" onclick="selectSingle(this,'channel')">
-        <span style="font-size:18px;flex-shrink:0">🔐</span>
-        <div class="urgency-text"><div class="urgency-label">Al cerrar — la caja no cuadra y no sé por qué</div><div class="urgency-sub">El dinero no da la cuenta al final del día</div></div>
-      </div>
     </div>
     <button class="btn-next" id="next5" onclick="goStep(6)">SIGUIENTE →</button>
   </div>
@@ -684,17 +693,24 @@
       </div>
     </div>
 
+    <!-- Voice output -->
+    <button class="voice-btn" id="voiceBtn" onclick="toggleSpeech()">
+      <span class="voice-icon">🔊</span>
+      <span class="voice-label">Escuchar mi diagnóstico en voz alta</span>
+      <span class="voice-stop" id="voiceStop"></span>
+    </button>
+
     <!-- Reframed CTA -->
     <div class="deepdive-card">
       <div class="deepdive-title">¿Quieres profundizar — y ver qué puede hacer la <em>IA exactamente</em> para tu negocio?</div>
       <div class="deepdive-body">
-        Lo que acabas de ver es una <strong>demostración de lo que la IA puede hacer</strong> con datos representativos. El diagnóstico real trabaja con tus productos, tu cartera, tus proveedores y tus márgenes reales. El resultado no es un análisis de "una tienda parecida a la tuya" — es el análisis de <strong>tu negocio específico</strong>, con recomendaciones accionables desde el primer día.
+        Lo que acabas de ver es una <strong>demostración de lo que la IA puede hacer</strong> — con respuestas genéricas. El diagnóstico real es distinto: trabajamos contigo para entender tu operación, tus números, tus procesos y tu equipo. El resultado es un análisis específico para tu negocio, no para uno parecido, y herramientas configuradas para cómo tú realmente trabajas.
       </div>
       <ul class="deepdive-list">
-        <li>Análisis real de tus márgenes por producto, tu cartera de fiado y dónde se está yendo el dinero</li>
-        <li>Identificación de las 2–3 mejoras de mayor impacto inmediato en tu operación específica</li>
-        <li>Demo en vivo con tus propios productos y tu propia operación — no con ejemplos genéricos</li>
-        <li>Estimación concreta de cuánto podrías recuperar en inventario parado, fiado y costos ocultos</li>
+        <li>Diagnóstico real basado en tus datos, tu equipo y tu forma de operar — no en promedios del sector</li>
+        <li>Identificación de las 2–3 mejoras de mayor impacto inmediato en tu negocio específico</li>
+        <li>Demo en vivo de las herramientas más relevantes para tu situación — con tu propio negocio como ejemplo</li>
+        <li>Estimación concreta de tiempo y dinero que podrías recuperar — no cifras genéricas</li>
         <li>Sin compromiso — una conversación para ver si tiene sentido, nada más</li>
       </ul>
       <div class="cta-buttons">
@@ -775,82 +791,228 @@
     document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
   }
 
+  // ── CONTENT DATA ──
 
-  // ── RETAIL CONTENT DATA ──
-  const sectorLabels = { ferreteria:'🔨 Ferretería', minimarket:'🛒 Minimarket', ropa:'👗 Ropa/Calzado', electrodomesticos:'📺 Electrodomésticos', distribuidora:'📦 Distribuidora', otro:'🏪 Comercio' };
-  const subtypeContext = { ferreteria:'una ferretería', minimarket:'un minimarket o tienda de abarrotes', ropa:'una tienda de ropa o calzado', electrodomesticos:'una tienda de electrodomésticos', distribuidora:'una distribuidora', otro:'tu tienda' };
-  const peakContext = { quincena:'La quincena y fin de mes te golpean con todo al mismo tiempo: cobros, pagos, nómina.', fin_semana:'Los fines de semana son tu momento de mayor venta — y de mayor caos operativo.', proveedores_pico:'Cuando llegan los proveedores, todo para para recibir y verificar el pedido.', cierre:'Al cerrar, la caja no cuadra — y sin saber por qué, no puedes corregirlo.' };
+  const sectorLabels = { restaurante:'🍽️ Restaurante', tienda:'🏪 Tienda / Comercio', taller:'🔧 Taller', salud:'🏥 Salud', construccion:'🏗️ Construcción', transporte:'🚚 Transporte', educacion:'🎓 Servicios', otro:'💼 Negocio' };
+  const sectorNames  = { restaurante:'restaurante o cafetería', tienda:'tienda o comercio', taller:'taller o servicio técnico', salud:'negocio de salud', construccion:'constructora', transporte:'distribuidora o empresa de transporte', educacion:'negocio de servicios', otro:'negocio' };
+
+  // Sector-specific financial figures per pain
+  const sectorFinancials = {
+    inventario: {
+      restaurante: 'En un restaurante, el desperdicio de ingredientes representa entre el <strong>10–18% del costo total</strong> — y la mayoría no lo mide.',
+      tienda: 'En una tienda, entre el <strong>15–25% del inventario</strong> puede estar parado más de 60 días inmovilizando capital.',
+      taller: 'En talleres, los repuestos pedidos de urgencia cuestan en promedio <strong>20–30% más</strong> que los pedidos con planificación.',
+      salud: 'En farmacias y clínicas, quedarse sin un producto de alta rotación cuesta en promedio <strong>$8–15 por cliente perdido</strong>.',
+      construccion: 'En construcción, un retraso de materiales de 3 días puede costar <strong>$500–1,500 en mano de obra ociosa</strong>.',
+      transporte: 'En distribuidoras, las roturas de stock cuestan en promedio <strong>3–5 clientes por mes</strong> que buscan otro proveedor.',
+      educacion: 'El tiempo en gestión de materiales y recursos puede representar <strong>4–6 horas semanales</strong> del dueño.',
+      otro: 'En negocios similares, entre el <strong>15–25% del inventario</strong> puede estar parado sin que el dueño lo sepa.'
+    },
+    cobros: {
+      restaurante: 'En restaurantes con servicio de empresa o catering, la cartera informal puede llegar a <strong>$800–2,000</strong> sin seguimiento activo.',
+      tienda: 'Una tienda con 50 clientes de crédito informal puede tener entre <strong>$1,000–4,000 en cartera</strong> sin fecha de cobro definida.',
+      taller: 'En talleres, los trabajos entregados sin pago completo representan en promedio el <strong>12–18% de la facturación mensual</strong>.',
+      salud: 'En clínicas y farmacias, el crédito a pacientes frecuentes puede acumular <strong>$500–2,000 sin gestión activa</strong>.',
+      construccion: 'En construcción, los pagos parciales mal documentados generan disputas que pueden costar <strong>semanas de trabajo</strong>.',
+      transporte: 'En distribuidoras, la cartera de clientes con fiado activo puede superar los <strong>$2,000–5,000</strong> sin sistema de seguimiento.',
+      educacion: 'En servicios profesionales, las facturas vencidas no cobradas representan en promedio el <strong>15–20% de los ingresos mensuales</strong>.',
+      otro: 'Sin seguimiento activo, un negocio de tu tamaño puede tener entre <strong>$500–3,000 en cartera informal</strong> sin gestión.'
+    },
+    proveedores: {
+      restaurante: 'En un restaurante, comparar precios de 3 proveedores de insumos puede generar ahorros de <strong>$150–400 al mes</strong>.',
+      tienda: 'En una tienda con 5+ proveedores, la comparación sistemática de precios puede reducir el costo de compras entre un <strong>8–15%</strong>.',
+      taller: 'En talleres automotrices, la diferencia de precio en repuestos entre proveedores puede representar <strong>$200–500 al mes</strong>.',
+      salud: 'En farmacias, la diferencia entre proveedores de medicamentos genéricos puede significar <strong>$300–800 mensuales</strong> en margen adicional.',
+      construccion: 'En construcción, la comparación de cotizaciones puede reducir el costo de materiales entre un <strong>10–20% por proyecto</strong>.',
+      transporte: 'En distribuidoras, optimizar los pedidos a proveedores puede reducir el capital inmovilizado en stock hasta un <strong>25%</strong>.',
+      educacion: 'En servicios, la gestión de proveedores de suministros puede liberar entre <strong>3–5 horas semanales</strong> del equipo.',
+      otro: 'Una diferencia de $0.50 por unidad en productos de alta rotación puede representar <strong>$200–400 al mes</strong> en ahorro.'
+    },
+    personal: {
+      restaurante: 'En un restaurante, los errores en turnos generan ausencias que pueden costar <strong>$50–150 por incidente</strong> en cobertura de emergencia.',
+      tienda: 'En una tienda con 3–8 empleados, la gestión manual de horarios consume entre <strong>3–5 horas semanales</strong> del dueño.',
+      taller: 'En talleres, la coordinación manual de técnicos y trabajos puede significar <strong>20–30% de tiempo improductivo</strong> por desorganización.',
+      salud: 'En clínicas, los turnos mal coordinados generan tiempos muertos que representan entre <strong>$200–500 mensuales</strong> en capacidad no utilizada.',
+      construccion: 'En construcción, la mala coordinación de subcontratistas puede generar retrasos que cuestan <strong>$300–800 por día perdido</strong>.',
+      transporte: 'En transporte, la gestión de conductores y documentación consume en promedio <strong>6–8 horas semanales</strong> del administrador.',
+      educacion: 'En servicios profesionales, la coordinación de agenda y equipo puede ocupar hasta <strong>5 horas semanales</strong> en tareas no facturables.',
+      otro: 'El tiempo administrativo del dueño en gestión de personal puede superar <strong>5 horas semanales</strong>.'
+    },
+    clientes: {
+      restaurante: 'Un restaurante con presencia activa en redes recibe hasta <strong>40% más reservas</strong> desde Google Maps que uno sin respuestas a reseñas.',
+      tienda: 'Una tienda que hace seguimiento post-venta retiene hasta <strong>3x más clientes</strong> que una que solo espera que vuelvan.',
+      taller: 'Los talleres que envían recordatorios de mantenimiento por WhatsApp generan entre <strong>$300–600 mensuales</strong> en revisiones adicionales.',
+      salud: 'Las farmacias con recordatorios automáticos a pacientes crónicos aumentan la frecuencia de visitas en un <strong>25–35%</strong>.',
+      construccion: 'En construcción, el 70% de los proyectos nuevos vienen de referidos — un sistema de seguimiento puede <strong>duplicar esa tasa</strong>.',
+      transporte: 'Las distribuidoras con comunicación proactiva retienen <strong>15–20% más clientes</strong> que las que solo responden quejas.',
+      educacion: 'En servicios profesionales, el seguimiento automático post-proyecto puede generar entre <strong>$500–2,000 mensuales</strong> en trabajo adicional.',
+      otro: 'En Cuenca, más del 60% de las recomendaciones de negocios locales pasa por WhatsApp o Instagram.'
+    },
+    tiempo: {
+      restaurante: 'Responder pedidos por WhatsApp manualmente puede consumir <strong>2–3 horas diarias</strong> que un asistente IA hace en segundos.',
+      tienda: 'En una tienda, responder las mismas preguntas sobre precios, stock y horarios puede ocupar <strong>1–2 horas diarias</strong>.',
+      taller: 'En talleres, coordinar citas y responder consultas manualmente consume entre <strong>10–15 horas semanales</strong> del equipo.',
+      salud: 'En clínicas y farmacias, las consultas repetitivas por WhatsApp pueden ocupar hasta <strong>3 horas diarias</strong> del personal.',
+      construccion: 'En construcción, preparar presupuestos y coordinar con clientes puede tomar <strong>6–10 horas semanales</strong>.',
+      transporte: 'Gestionar manifiestos, guías y documentación manualmente puede consumir <strong>8–12 horas semanales</strong>.',
+      educacion: 'En servicios profesionales, las tareas administrativas pueden consumir hasta el <strong>30% del tiempo facturable</strong>.',
+      otro: 'Las tareas administrativas repetitivas pueden consumir entre <strong>2–4 horas diarias</strong> del dueño o equipo.'
+    }
+  };
 
   const painData = {
     inventario: {
-      headline: 'El inventario que no se ve es capital que no trabaja',
-      getText: (s) => `En ${subtypeContext[s]||'tu tienda'}, entre el <strong>15 y 25% del inventario</strong> puede estar parado más de 60 días inmovilizando capital. Y quedarte sin un producto de alta rotación justo cuando más se vende significa perder ventas que no se recuperan.`,
-      getBullets: (s,p,u) => { const b = ['Registro de entradas y salidas por voz o WhatsApp — sin tipear, sin planillas','Alertas de stock mínimo antes de quedarte sin nada — no después','Identificación de productos con mayor rotación vs. los que inmovilizan capital','Proyección de cuándo reponer según tu ritmo de ventas real — sin comprar de más ni de menos','Detección de productos próximos a vencer antes de que sean pérdida directa']; if(u==='preocupado') b.unshift('Capital inmovilizado en inventario parado hoy — para tomar decisiones inmediatas de liquidez'); return b.slice(0,4); },
-      secondSummary: 'El inventario sin control es capital congelado — no se ve hasta que duele.'
+      headline: 'El inventario es el punto ciego más caro',
+      getText: (sector) => `Sin visibilidad en tiempo real, siempre estás reaccionando — comprando de más, quedándote sin stock en el peor momento, o inmovilizando capital en productos que no rotan. ${sectorFinancials.inventario[sector] || sectorFinancials.inventario.otro}`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Registro de entradas y salidas por voz o WhatsApp — sin tipear, sin planillas, sin interrumpir el ritmo de trabajo',
+          'Alertas automáticas de stock mínimo antes de quedarte sin producto — no después',
+          'Identificación de qué producto te genera más margen real y cuál solo ocupa espacio y capital',
+          'Proyección de cuándo necesitas reponer, basada en tu ritmo de venta actual'
+        ];
+        if (urgency === 'preocupado') base.unshift('Cálculo diario de cuánto capital tienes inmovilizado en inventario parado — para tomar decisiones inmediatas de liquidez');
+        if (channel === 'whatsapp') base.push('Respuestas automáticas de disponibilidad de stock a clientes por WhatsApp, 24/7');
+        return base.slice(0,4);
+      },
+      secondSummary: 'El inventario es capital congelado que no se ve hasta que duele — y cuando duele, ya es tarde.'
     },
-    fiado: {
-      headline: 'El fiado sin seguimiento es una donación involuntaria',
-      getText: (s) => `El crédito informal es parte de la realidad del comercio ecuatoriano — en ${subtypeContext[s]||'una tienda'} de tu tamaño, la cartera informal puede estar entre <strong>$800 y $4,000</strong> sin gestión activa. Tu capital trabajando para otros, sin interés, sin fecha definida.`,
-      getBullets: (s,p,u) => { const b = ['Registro completo por cliente: quién debe, cuánto, desde qué fecha — sin papel ni memoria','Alertas antes de que los cobros se vuelvan incómodos — el momento de cobrar es antes de que olviden','Mensajes de cobranza por WhatsApp con el tono correcto: directos sin dañar la relación','Proyección de flujo de caja incluyendo lo que te deben — no solo lo que tienes en caja','Identificación de clientes con patrón de pago lento para decidir a quién seguir dando crédito']; if(u==='preocupado') b.unshift('Cartera total hoy: cuánto te deben, qué vence esta semana, qué lleva más de 30 días'); return b.slice(0,4); },
-      secondSummary: 'El fiado es un activo o un problema según cómo lo gestiones.'
+    cobros: {
+      headline: 'El fiado sin control es pérdida silenciosa',
+      getText: (sector) => `El crédito informal es parte de la realidad comercial ecuatoriana — y en un ${sectorNames[sector] || 'negocio'}, nadie puede permitirse ignorarlo. ${sectorFinancials.cobros[sector] || sectorFinancials.cobros.otro} Tu capital trabajando para otros, sin interés, sin fecha clara.`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Registro completo de cartera por cliente — quién debe, cuánto exactamente, desde qué fecha, sin papel ni memoria',
+          'Alertas antes de que los cobros se vuelvan incómodos — el momento de cobrar es antes de que el cliente olvide, no después',
+          'Mensajes de cobranza por WhatsApp redactados con el tono correcto: directos sin dañar la relación',
+          'Proyección de flujo de caja real incluyendo lo que te deben — no solo lo que tienes en caja',
+          'Identificación de clientes con patrón de pago lento para decidir a quién seguir dando crédito'
+        ];
+        if (urgency === 'preocupado') base.unshift('Visibilidad inmediata de tu cartera total: cuánto te deben hoy, qué vence esta semana, qué ya prescribió');
+        return base.slice(0,4);
+      },
+      secondSummary: 'El dinero que no llega no duele de inmediato — pero acumula hasta que afecta la caja.'
     },
     proveedores: {
-      headline: 'Cada peso que pagas de más a proveedores es margen que no ves',
-      getText: (s) => `En ${subtypeContext[s]||'tu tienda'} con múltiples proveedores, la diferencia de precio en productos de alta rotación puede representar entre <strong>$200 y $600 al mes</strong> en ahorro potencial. Sin comparación sistemática, ese dinero se va sin que nadie lo note.`,
-      getBullets: (s,p,u) => { const b = ['Comparación automática de cotizaciones entre proveedores en segundos, no en horas','Historial de precios por proveedor y producto para negociar con datos reales','Órdenes de compra generadas automáticamente cuando el stock llega al mínimo','Alertas cuando un proveedor sube precios respecto al promedio histórico','Análisis de cuál proveedor cumple mejor en precio, plazo y calidad']; return b.slice(0,4); },
+      headline: 'Lo que pagas de más a proveedores es margen que no ves',
+      getText: (sector) => `Sin comparación sistemática, la mayoría de negocios pagan de más sin saberlo — no por descuido, sino porque comparar manualmente lleva tiempo que no tienes. ${sectorFinancials.proveedores[sector] || sectorFinancials.proveedores.otro}`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Comparación automática de cotizaciones entre proveedores — en segundos, no en horas',
+          'Historial de precios por proveedor y producto para negociar con datos reales sobre la mesa',
+          'Órdenes de compra generadas automáticamente cuando el stock llega al mínimo definido',
+          'Alertas de mejores condiciones disponibles en el mercado para tus productos más comprados',
+          'Análisis de qué proveedor cumple mejor en precio, plazo y calidad — no solo en precio'
+        ];
+        return base.slice(0,4);
+      },
       secondSummary: 'Proveedores es la palanca de costos que más se descuida — y donde el ahorro aparece más rápido.'
     },
-    clientes: {
-      headline: 'Tu cliente más valioso ya está comprando — el trabajo es que no se vaya',
-      getText: (s) => `En ${subtypeContext[s]||'tu tienda'}, retener un cliente existente cuesta <strong>5 veces menos</strong> que conseguir uno nuevo. Y en Cuenca, el 60% de las recomendaciones de comercios locales pasa por WhatsApp o conversación directa. Sin seguimiento activo, los clientes buenos se van sin avisar.`,
-      getBullets: (s,p,u) => { const b = ['Seguimiento post-venta por WhatsApp para fidelizar sin esfuerzo manual','Detección de clientes frecuentes que han dejado de comprar — para reactivarlos antes de perderlos','Respuestas automáticas a consultas de stock, precios y horarios — 24/7','Generación de contenido para redes: productos, promociones, novedades — listo para publicar','Campañas de reactivación para clientes que no han comprado en 30, 60 o 90 días']; if(p==='fin_semana') b.unshift('Atención automática de consultas en WhatsApp durante el fin de semana — sin perder ventas por no responder'); return b.slice(0,4); },
-      secondSummary: 'El cliente que ya confía en ti es el activo más valioso — pero solo si lo cuidas activamente.'
-    },
     personal: {
-      headline: 'Un error de caja o de atención puede costar más que un día de ventas',
-      getText: (s) => `En ${subtypeContext[s]||'tu tienda'}, un empleado mal informado sobre precios o existencias puede perder una venta, generar una queja o cometer un error de caja. Con personal rotativo y horarios cambiantes, la coordinación consume entre <strong>3 y 6 horas semanales</strong> del dueño.`,
-      getBullets: (s,p,u) => { const b = ['Gestión de turnos por WhatsApp — confirmación automática, sin hojas de cálculo','Registro de asistencia sin papel ni app adicional','Actualización automática de precios y existencias para todo el equipo','Cálculo de liquidaciones, décimos y beneficios de ley sin margen de error','Historial de puntualidad por persona para tomar mejores decisiones']; return b.slice(0,4); },
-      secondSummary: 'El equipo es la cara del negocio — su desempeño impacta directamente ventas y reputación.'
+      headline: 'Gestionar un equipo pequeño consume más de lo que parece',
+      getText: (sector) => `Entre turnos, ausencias, vacaciones y liquidaciones, el tiempo del dueño en gestión de personal puede volverse el costo más silencioso del negocio. ${sectorFinancials.personal[sector] || sectorFinancials.personal.otro} Y los errores aquí tienen consecuencias humanas, no solo financieras.`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Gestión de turnos y horarios por WhatsApp — sin hojas de cálculo, sin mensajes de grupo caóticos',
+          'Alertas de contratos, documentos laborales y obligaciones del IESS próximas a vencer',
+          'Registro de asistencia y horas extra sin papel ni sistema complejo — solo WhatsApp',
+          'Cálculo automático de liquidaciones, décimos y beneficios de ley cuando se necesitan',
+          'Identificación de patrones de ausentismo por persona y período para anticipar problemas'
+        ];
+        return base.slice(0,4);
+      },
+      secondSummary: 'Personal es el recurso más sensible — errores aquí tienen consecuencias humanas y también legales.'
     },
-    costos: {
-      headline: 'Vender mucho sin saber cuánto ganas no es negocio — es actividad',
-      getText: (s) => `En ${subtypeContext[s]||'tu tienda'}, muchos dueños fijan precios sumando el costo de compra más un porcentaje de intuición. Los costos fijos, el tiempo del personal y los productos que no rotan no entran en ese cálculo. El resultado real puede ser <strong>15 a 30% menos margen</strong> del que crees tener.`,
-      getBullets: (s,p,u) => { const b = ['Margen real por producto después de costos de compra, merma y costos fijos','Los 10 productos más rentables vs. los que ocupan espacio sin generar margen','Punto de equilibrio mensual: cuánto tienes que vender para cubrir todo','Detección de pérdidas no explicadas — diferencia entre lo que debería estar en caja y lo que hay','Simulación: qué pasa con tu margen si sube el costo de tus productos más vendidos']; if(u==='preocupado') b.unshift('Qué productos eliminar o renegociar para mejorar el margen de forma inmediata'); return b.slice(0,4); },
-      secondSummary: 'El negocio rentable no es el que más vende — es el que más sabe de sus números reales.'
+    clientes: {
+      headline: 'Retener un cliente cuesta 5 veces menos que conseguir uno nuevo',
+      getText: (sector) => `Sin seguimiento activo y sin presencia digital constante, los clientes se van silenciosamente — muchas veces hacia la competencia sin que el dueño se entere a tiempo. ${sectorFinancials.clientes[sector] || sectorFinancials.clientes.otro}`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Generación automática de contenido para redes — textos, promociones y respuestas a reseñas en segundos',
+          'Seguimiento post-venta por WhatsApp para fidelizar sin esfuerzo: el cliente siente atención, tú no gastas tiempo',
+          'Detección temprana de clientes que están comprando menos — para actuar antes de perderlos',
+          'Campañas de reactivación para clientes inactivos con el mensaje correcto en el momento correcto',
+          'Respuestas automáticas a consultas frecuentes en redes y WhatsApp — ninguna oportunidad sin respuesta'
+        ];
+        if (channel === 'whatsapp') base.unshift('Asistente de ventas por WhatsApp que responde, cotiza y registra pedidos las 24 horas — sin intervención tuya');
+        if (channel === 'redes') base.unshift('Gestión automatizada de mensajes y comentarios en redes — ningún cliente sin respuesta en menos de 2 minutos');
+        return base.slice(0,4);
+      },
+      secondSummary: 'Marketing es el área donde más se infrainvierte en negocios pequeños — y donde la IA nivela la cancha.'
+    },
+    tiempo: {
+      headline: 'El tiempo del dueño vale demasiado para gastarlo en tareas repetitivas',
+      getText: (sector) => `En un ${sectorNames[sector] || 'negocio'}, el dueño suele ser al mismo tiempo vendedor, administrador, cobrador y asistente técnico. ${sectorFinancials.tiempo[sector] || sectorFinancials.tiempo.otro} Eso es tiempo que no está en hacer crecer el negocio.`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Asistente de atención al cliente 24/7 por WhatsApp — responde preguntas frecuentes sin que tengas que estar',
+          'Registro de ventas, gastos y movimientos por voz o mensaje — el sistema escucha y organiza solo',
+          'Informes automáticos del estado del negocio cada mañana — sin abrir Excel, sin calcular nada',
+          'Generación de presupuestos, facturas y cotizaciones en segundos desde el celular',
+          'Recordatorios automáticos de tareas, pagos y seguimientos — para que nada se caiga entre las grietas'
+        ];
+        if (channel === 'whatsapp') base.unshift('Integración directa con tu WhatsApp actual — sin cambiar de plataforma, sin que tus clientes noten el cambio');
+        return base.slice(0,4);
+      },
+      secondSummary: 'Automatizar lo repetitivo no es lujo — es recuperar el tiempo para lo que solo tú puedes hacer.'
     }
   };
 
   const urgencySignalData = {
-    tranquilo:{dot:'green',text:'<strong>Situación estable</strong> — buen momento para invertir en sistemas de control y fidelización antes de que la competencia o los costos erosionen el margen.'},
-    ajustado:{dot:'amber',text:'<strong>Margen reducido</strong> — la prioridad es encontrar pérdidas invisibles: inventario parado, fiado sin cobrar, productos con margen negativo. El orden paga más rápido que la expansión.'},
-    preocupado:{dot:'red',text:'<strong>Urgencia financiera real</strong> — primero visibilidad de caja y cartera. En retail, el dinero atrapado en inventario o en fiado suele ser la causa principal de la crisis de liquidez.'}
-  };
-  const priorText = {
-    nunca:'No has encontrado nada que funcione — las herramientas genéricas de retail no están diseñadas para el contexto del comercio ecuatoriano: fiado, proveedores informales, WhatsApp como canal principal.',
-    probe:'Ya probaste algo y no funcionó — lo más frecuente es que el sistema era demasiado complejo o no se adaptaba a cómo funciona realmente tu negocio.',
-    esfuerzo:'Lo manejas pero con demasiado esfuerzo — el proceso es correcto pero la herramienta no está hecha para tu ritmo de trabajo.',
-    ninguno:'Aún no lo has atacado — el impacto de resolverlo es inmediato y sin fricción de transición.'
-  };
-  const maturityData = {
-    cuaderno:{text:'Control manual — disciplina real. La IA puede multiplicarla sin pedir computadora ni capacitación: registro por voz, resúmenes por WhatsApp.',pct:20},
-    excel:{text:'Más visibilidad que la mayoría. La IA añade tiempo real y alertas sin que tengas que actualizar nada manualmente.',pct:50},
-    app:{text:'Ya usas tecnología — el siguiente paso es que tu sistema piense y alerte en lugar de solo registrar.',pct:65},
-    memoria:{text:'La memoria funciona hasta que no funciona. La IA puede empezar a registrar todo hoy, solo con WhatsApp.',pct:10},
-    nada:{text:'Empezar desde cero tiene ventajas: sin datos incorrectos ni malos hábitos que deshacer.',pct:5},
-    mixto:{text:'Una mezcla es lo más común — y lo más desordenado. La IA centraliza sin pedir que abandones lo que ya funciona.',pct:35}
+    tranquilo: { dot: 'green', text: '<strong>Situación estable</strong> — buena base para invertir en sistemas de control y crecimiento antes de que los problemas aparezcan. Prevenir cuesta menos que remediar.' },
+    ajustado: { dot: 'amber', text: '<strong>Margen reducido</strong> — el foco debe estar en reducir pérdidas invisibles (inventario parado, fiado sin cobrar, costos ocultos) antes que en crecimiento. El orden paga más rápido que la expansión.' },
+    preocupado: { dot: 'red', text: '<strong>Prioridad financiera urgente</strong> — las herramientas más inmediatas son las que dan visibilidad de caja y cobros pendientes. Primero estabilizar la liquidez, luego optimizar operaciones.' }
   };
 
-  function buildWAMessage() {
-    const sF={ferreteria:'Ferretería',minimarket:'Minimarket',ropa:'Ropa/Calzado',electrodomesticos:'Electrodomésticos',distribuidora:'Distribuidora',otro:'Otro comercio'};
-    const szF={solo:'Solo',pequeno:'2–5 personas',mediano:'6–20 personas',grande:'Más de 20'};
-    const pkF={quincena:'Quincena/fin de mes',fin_semana:'Fines de semana',proveedores_pico:'Llegada de proveedores',cierre:'Cierre de caja'};
-    const ctF={cuaderno:'Cuaderno',excel:'Excel',app:'App/sistema',memoria:'De memoria',nada:'Sin sistema',mixto:'Mezcla'};
-    const uF={tranquilo:'Estable ✅',ajustado:'Ajustada ⚠️',preocupado:'Bajo presión 🔴'};
-    const prF={nunca:'Nunca encontró solución',probe:'Probó algo, no funcionó',esfuerzo:'Lo maneja con esfuerzo',ninguno:'No ha intentado'};
-    const pnF={inventario:'Inventario/stock',fiado:'Cobros/fiado',proveedores:'Proveedores',clientes:'Clientes/ventas',personal:'Personal',costos:'Costos/márgenes'};
-    const biz=document.getElementById('bizName').value.trim();
-    const pt=state.pains.map(p=>pnF[p]||p).join(' + ');
-    return '📊 *Diagnóstico Demo — Retail*\n\n'+(biz?'*Negocio:* '+biz+'\n':'')+'*Tipo:* '+(sF[state.sector]||'—')+'\n*Equipo:* '+(szF[state.size]||'—')+'\n*Dolor principal:* '+(pt||'—')+'\n*Control actual:* '+(ctF[state.control]||'—')+'\n*Momento crítico:* '+(pkF[state.channel]||'—')+'\n*Situación de caja:* '+(uF[state.urgency]||'—')+'\n*Ha intentado resolver:* '+(prF[state.prior]||'—')+'\n\nMe interesa saber más.';
+  const priorText = {
+    nunca: 'No has encontrado nada que funcione hasta ahora — eso indica que el problema es real y persistente, no coyuntural. La diferencia con la IA conversacional es que se adapta a cómo tú trabajas, no al revés.',
+    probe: 'Ya intentaste algo y no funcionó — información valiosa. La razón más frecuente es que las herramientas genéricas no entienden el contexto de un negocio ecuatoriano: el fiado, la informalidad, el WhatsApp como canal principal. Esa es exactamente la diferencia.',
+    esfuerzo: 'Ya tienes un sistema, pero te cuesta demasiado tiempo mantenerlo — el proceso es correcto pero la herramienta no está hecha para tu ritmo de trabajo. La IA elimina la fricción sin cambiar lo que ya funciona.',
+    ninguno: 'Aún no has atacado el problema — lo que significa que el impacto potencial de resolverlo es inmediato, sin fricción de transición ni hábitos que cambiar.'
+  };
+
+  const maturityData = {
+    cuaderno: { text: 'Llevas el control a mano — eso demuestra disciplina real. La IA puede multiplicar esa disciplina sin pedirte computadora ni capacitación: registro por voz, resúmenes automáticos por WhatsApp, todo en tu celular.', pct: 20 },
+    excel: { text: 'Ya tienes más visibilidad que la mayoría de negocios de tu tamaño. La IA lleva eso al siguiente nivel — análisis automático, alertas en tiempo real, sin que tengas que actualizar nada manualmente.', pct: 50 },
+    app: { text: 'Ya usas tecnología — la transición a IA conversacional va a ser natural. El salto no es de herramienta, es de capacidad: pasar de un sistema que registra a uno que piensa, alerta y recomienda.', pct: 65 },
+    memoria: { text: 'Llevar todo de memoria funciona hasta cierto punto — después se convierte en el mayor riesgo del negocio. La IA puede empezar a registrar todo hoy, solo con mensajes de WhatsApp. Sin cambiar nada más.', pct: 10 },
+    nada: { text: 'Empezar desde cero tiene ventajas reales: se construye bien desde el inicio, sin malos hábitos que deshacer, sin datos incorrectos que limpiar. Mejor punto de partida de lo que parece.', pct: 5 },
+    mixto: { text: 'Una mezcla de herramientas es lo más común en negocios reales — y también lo más desordenado. La IA puede centralizar todo en un solo canal sin pedirte que abandones lo que ya funciona.', pct: 35 }
+  };
+
+  const channelContext = {
+    presencial: 'Con clientes que vienen al local, la velocidad de atención y la experiencia en el punto de venta son el diferenciador real.',
+    whatsapp: 'Ya operas por WhatsApp — el canal más natural para integrar IA de forma inmediata, sin pedir nada nuevo a tus clientes ni cambiar cómo trabajas.',
+    telefono: 'El teléfono es confiable, pero limita la escalabilidad. WhatsApp con IA puede hacer el mismo trabajo con más capacidad y sin perderse nada.',
+    redes: 'Las redes generan demanda — la clave es tener un sistema que capture y atienda esa demanda en segundos, sin que nada se pierda.',
+    referidos: 'Los referidos son el activo más valioso. La IA puede amplificar ese capital relacional de forma sistemática, sin que dependa solo de que te acuerdes de hacer el seguimiento.',
+    mixto: 'Operar por múltiples canales multiplica la oportunidad y la complejidad. Un sistema centralizado evita que nada se pierda entre canales.'
+  };
+
+  // Build WhatsApp data summary for Fernanda
+  function buildWAMessage(intent) {
+    const sectorFull = { restaurante:'Restaurante/Cafetería', tienda:'Tienda/Minimarket/Ferretería', taller:'Taller/Automotriz', salud:'Clínica/Farmacia/Salud', construccion:'Construcción/Industria', transporte:'Transporte/Distribuidora', educacion:'Educación/Servicios', otro:'Otro' };
+    const sizeFull = { solo:'Solo (1 persona)', pequeno:'2–5 personas', mediano:'6–20 personas', grande:'Más de 20' };
+    const channelFull = { presencial:'En persona', whatsapp:'WhatsApp', telefono:'Teléfono', redes:'Redes sociales', referidos:'Referidos', mixto:'Varios canales' };
+    const controlFull = { cuaderno:'Cuaderno/papel', excel:'Excel', app:'App/sistema', memoria:'De memoria', nada:'Sin sistema', mixto:'Mezcla' };
+    const urgencyFull = { tranquilo:'Estable ✅', ajustado:'Ajustada ⚠️', preocupado:'Bajo presión 🔴' };
+    const priorFull = { nunca:'Nunca encontró solución', probe:'Probó algo, no funcionó', esfuerzo:'Lo maneja pero con esfuerzo', ninguno:'No ha intentado' };
+    const painsFull = { inventario:'Inventario/stock', cobros:'Cobros/fiado', proveedores:'Proveedores', personal:'Personal/turnos', clientes:'Clientes/marketing', tiempo:'Tiempo/admin' };
+
+    const bizName = document.getElementById('bizName').value.trim();
+    const painsText = state.pains.map(p => painsFull[p] || p).join(' + ');
+    const intentLine = intent === 'learn' ? 'Me interesa saber más sobre lo que puede hacer la IA para mi negocio.' : 'Me interesa el diagnóstico completo.';
+
+    return `📊 *Diagnóstico Demo — Pulso Rápido*\n\n` +
+      (bizName ? `*Negocio:* ${bizName}\n` : '') +
+      `*Sector:* ${sectorFull[state.sector] || '—'}\n` +
+      `*Equipo:* ${sizeFull[state.size] || '—'}\n` +
+      `*Dolor principal:* ${painsText || '—'}\n` +
+      `*Canal principal:* ${channelFull[state.channel] || '—'}\n` +
+      `*Control actual:* ${controlFull[state.control] || '—'}\n` +
+      `*Situación de caja:* ${urgencyFull[state.urgency] || '—'}\n` +
+      `*Ha intentado resolver:* ${priorFull[state.prior] || '—'}\n\n` +
+      intentLine;
   }
 
   function generateResult() {
@@ -859,37 +1021,130 @@
     document.getElementById('progressWrap').style.display = 'none';
     document.getElementById('resultContent').style.display = 'block';
     document.getElementById('result').classList.add('active');
-    const primary = state.pains[0] || 'inventario';
+
+    const primary = state.pains[0] || 'tiempo';
     const secondary = state.pains[1] || null;
     const pd = painData[primary];
     const md = maturityData[state.control] || maturityData['mixto'];
     const sector = state.sector || 'otro';
-    const peak = state.channel || 'quincena';
+    const channel = state.channel || 'mixto';
     const urgency = state.urgency || 'ajustado';
+
+    // Headline
     document.getElementById('resultHeadline').textContent = pd.headline;
-    const uc={tranquilo:'green',ajustado:'amber',preocupado:'red'};
-    const ul={tranquilo:'Caja estable',ajustado:'Caja ajustada',preocupado:'Caja bajo presión'};
-    document.getElementById('resultPills').innerHTML = '<span class="pill sector">'+sectorLabels[sector]+'</span><span class="pill '+uc[urgency]+'">'+ul[urgency]+'</span>';
-    const pl = peakContext[peak] || '';
-    document.getElementById('resultPainText').innerHTML = pd.getText(sector) + (pl ? '<br><br><strong>'+pl+'</strong>' : '');
-    if (secondary && painData[secondary]) {
+
+    // Pills
+    const pillsEl = document.getElementById('resultPills');
+    const urgencyColors = { tranquilo:'green', ajustado:'amber', preocupado:'red' };
+    const urgencyLabels = { tranquilo:'Caja estable', ajustado:'Caja ajustada', preocupado:'Caja bajo presión' };
+    pillsEl.innerHTML = `
+      <span class="pill sector">${sectorLabels[sector]}</span>
+      <span class="pill ${urgencyColors[urgency]}">${urgencyLabels[urgency]}</span>
+    `;
+
+    // Pain text
+    const ch = channelContext[channel] || '';
+    document.getElementById('resultPainText').innerHTML = pd.getText(sector) + (ch ? `<br><br><strong>${ch}</strong>` : '');
+
+    // Secondary pain
+    if (secondary) {
       document.getElementById('secondPainCard').style.display = 'block';
-      document.getElementById('resultSecondPain').innerHTML = '<strong>'+painData[secondary].headline+'.</strong> '+painData[secondary].secondSummary;
+      document.getElementById('resultSecondPain').innerHTML = `<strong>${painData[secondary].headline}.</strong> ${painData[secondary].secondSummary}`;
     }
+
+    // Urgency + prior signals
     const us = urgencySignalData[urgency];
     const pr = priorText[state.prior] || priorText['nunca'];
-    document.getElementById('urgencySignals').innerHTML = '<div class="urgency-signal"><div class="us-dot '+us.dot+'"></div><div class="us-text">'+us.text+'</div></div><div class="urgency-signal"><div class="us-dot amber"></div><div class="us-text">'+pr+'</div></div>';
-    const bullets = pd.getBullets(sector, peak, urgency);
+    document.getElementById('urgencySignals').innerHTML = `
+      <div class="urgency-signal"><div class="us-dot ${us.dot}"></div><div class="us-text">${us.text}</div></div>
+      <div class="urgency-signal"><div class="us-dot amber"></div><div class="us-text">${pr}</div></div>
+    `;
+
+    // Bullets — sector + channel + urgency specific
+    const bullets = pd.getBullets(sector, channel, urgency);
     const list = document.getElementById('resultIntiList');
     bullets.forEach(b => { const li = document.createElement('li'); li.innerHTML = b; list.appendChild(li); });
+
+    // Maturity
     document.getElementById('resultMaturityText').innerHTML = md.text;
     document.getElementById('maturityPct').textContent = md.pct + '%';
     setTimeout(() => { document.getElementById('maturityBar').style.width = md.pct + '%'; }, 100);
-    document.getElementById('btnWA').href = 'https://wa.me/593979841655?text=' + encodeURIComponent(buildWAMessage());
+
+    // Update WA link with encoded data
+    document.getElementById('btnWA').href = `https://wa.me/593979841655?text=${encodeURIComponent(buildWAMessage('full'))}`;
+
     document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
   }
 
+
+  // ── VOICE OUTPUT ──
+  let speaking = false;
+  let utterances = [];
+
+  function buildSpeechText() {
+    const headline = document.getElementById('resultHeadline').textContent;
+    const painText = document.getElementById('resultPainText').innerText;
+    const bullets = Array.from(document.querySelectorAll('#resultIntiList li')).map(li => li.innerText).join('. ');
+    const maturity = document.getElementById('resultMaturityText').innerText;
+    const secondPain = document.getElementById('secondPainCard').style.display !== 'none'
+      ? document.getElementById('resultSecondPain').innerText : '';
+
+    return [
+      headline + '.',
+      painText,
+      secondPain,
+      'Esto incluye, entre otras cosas, lo que la inteligencia artificial puede hacer: ' + bullets + '.',
+      maturity
+    ].filter(Boolean).join(' ');
+  }
+
+  function toggleSpeech() {
+    if (speaking) {
+      window.speechSynthesis.cancel();
+      speaking = false;
+      document.getElementById('voiceBtn').classList.remove('speaking');
+      document.getElementById('voiceStop').textContent = '';
+      document.querySelector('#voiceBtn .voice-label').textContent = 'Escuchar mi diagnóstico en voz alta';
+      return;
+    }
+
+    if (!window.speechSynthesis) {
+      alert('Tu navegador no soporta la lectura en voz alta. Prueba con Chrome en Android.');
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const text = buildSpeechText();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'es-EC';
+    utter.rate = 0.92;
+    utter.pitch = 1.0;
+    utter.volume = 1.0;
+
+    // Try to pick a Spanish voice
+    const voices = window.speechSynthesis.getVoices();
+    const spanish = voices.find(v => v.lang.startsWith('es')) || null;
+    if (spanish) utter.voice = spanish;
+
+    utter.onstart = () => {
+      speaking = true;
+      document.getElementById('voiceBtn').classList.add('speaking');
+      document.querySelector('#voiceBtn .voice-label').textContent = 'Leyendo diagnóstico...';
+      document.getElementById('voiceStop').textContent = 'Toca para detener';
+    };
+    utter.onend = utter.onerror = () => {
+      speaking = false;
+      document.getElementById('voiceBtn').classList.remove('speaking');
+      document.getElementById('voiceStop').textContent = '';
+      document.querySelector('#voiceBtn .voice-label').textContent = 'Escuchar mi diagnóstico en voz alta';
+    };
+
+    window.speechSynthesis.speak(utter);
+  }
+
+  // Stop speech on restart
   function restart() {
+    if (speaking) { window.speechSynthesis.cancel(); speaking = false; }
     Object.keys(state).forEach(k => { state[k] = Array.isArray(state[k]) ? [] : null; });
     currentStep = 0;
     document.querySelectorAll('.opt, .urgency-opt, .pain-opt').forEach(o => o.classList.remove('selected'));

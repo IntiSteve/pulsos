@@ -729,7 +729,7 @@
     document.getElementById('progressLabel').textContent = 'Pregunta ' + currentStep + ' de 7';
     document.getElementById('progressFill').style.width = (currentStep / 7 * 100) + '%';
     document.getElementById('btnBack').classList.toggle('visible', currentStep > 1);
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ document.body.scrollTop=0; document.documentElement.scrollTop=0; window.scrollTo(0,0); }); });
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
   }
 
   function selectSingle(el, field) {
@@ -759,7 +759,7 @@
     document.getElementById('step' + currentStep).classList.remove('active');
     currentStep = n;
     document.getElementById('step' + n).classList.add('active');
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ document.body.scrollTop=0; document.documentElement.scrollTop=0; window.scrollTo(0,0); }); });
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
     updateProgress();
   }
 
@@ -769,7 +769,7 @@
     currentStep--;
     document.getElementById('step' + currentStep).classList.add('active');
     updateProgress();
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ document.body.scrollTop=0; document.documentElement.scrollTop=0; window.scrollTo(0,0); }); });
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
   }
 
 
@@ -883,7 +883,7 @@
     document.getElementById('maturityPct').textContent = md.pct + '%';
     setTimeout(() => { document.getElementById('maturityBar').style.width = md.pct + '%'; }, 100);
     document.getElementById('btnWA').href = 'https://wa.me/593979841655?text=' + encodeURIComponent(buildWAMessage());
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ document.body.scrollTop=0; document.documentElement.scrollTop=0; window.scrollTo(0,0); }); });
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
   }
 
   function restart() {
@@ -897,7 +897,7 @@
     document.getElementById('secondPainCard').style.display = 'none';
     document.getElementById('maturityBar').style.width = '0%';
     document.getElementById('welcome').style.display = 'block';
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ document.body.scrollTop=0; document.documentElement.scrollTop=0; window.scrollTo(0,0); }); });
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
   }
 </script>
 </body>
