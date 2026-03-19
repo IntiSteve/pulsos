@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Open Graph / WhatsApp -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://intisteve.github.io/pulsos/pulso-salud.html" />
-  <meta property="og:title" content="Diagnóstico para Salud & Bienestar — Inti Horizons IA" />
-  <meta property="og:description" content="¿Algo no está funcionando? 7 preguntas. Sin rodeos. Sin costo." />
-  <meta property="og:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Diagnóstico para Salud & Bienestar — Inti Horizons IA" />
-  <meta name="twitter:description" content="¿Algo no está funcionando? 7 preguntas. Sin rodeos. Sin costo." />
-  <meta name="twitter:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulso Salud — Diagnóstico para tu Cocina · Inti Horizons IA</title>
@@ -429,6 +419,20 @@
   }
   .footer-note .brand { color: var(--gold-dark); font-weight: 500; letter-spacing: 1px; }
 </style>
+
+<!-- Open Graph / WhatsApp -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://intisteve.github.io/pulsos/pulso-salud.html" />
+<meta property="og:title" content="Diagnóstico para Salud & Bienestar — Inti Horizons IA" />
+<meta property="og:description" content="¿Algo no está funcionando? Un pulso rápido puede revelar qué. 7 preguntas · Sin rodeos · Sin costo." />
+<meta property="og:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<!-- Twitter card (WhatsApp fallback) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Diagnóstico para Salud & Bienestar — Inti Horizons IA" />
+<meta name="twitter:description" content="¿Algo no está funcionando? Un pulso rápido puede revelar qué. 7 preguntas · Sin rodeos · Sin costo." />
+<meta name="twitter:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
 </head>
 <body>
 
@@ -728,7 +732,7 @@
     document.getElementById('progressLabel').textContent = 'Pregunta ' + currentStep + ' de 7';
     document.getElementById('progressFill').style.width = (currentStep / 7 * 100) + '%';
     document.getElementById('btnBack').classList.toggle('visible', currentStep > 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 
   function selectSingle(el, field) {
@@ -758,6 +762,7 @@
     document.getElementById('step' + currentStep).classList.remove('active');
     currentStep = n;
     document.getElementById('step' + n).classList.add('active');
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
     updateProgress();
   }
 
@@ -767,6 +772,7 @@
     currentStep--;
     document.getElementById('step' + currentStep).classList.add('active');
     updateProgress();
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 
 
@@ -880,7 +886,7 @@
     document.getElementById('maturityPct').textContent = md.pct + '%';
     setTimeout(() => { document.getElementById('maturityBar').style.width = md.pct + '%'; }, 100);
     document.getElementById('btnWA').href = 'https://wa.me/593979841655?text=' + encodeURIComponent(buildWAMessage());
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 
   function restart() {
@@ -894,7 +900,7 @@
     document.getElementById('secondPainCard').style.display = 'none';
     document.getElementById('maturityBar').style.width = '0%';
     document.getElementById('welcome').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 </script>
 </body>

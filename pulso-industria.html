@@ -729,7 +729,7 @@
     document.getElementById('progressLabel').textContent = 'Pregunta ' + currentStep + ' de 7';
     document.getElementById('progressFill').style.width = (currentStep / 7 * 100) + '%';
     document.getElementById('btnBack').classList.toggle('visible', currentStep > 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 
   function selectSingle(el, field) {
@@ -759,6 +759,7 @@
     document.getElementById('step' + currentStep).classList.remove('active');
     currentStep = n;
     document.getElementById('step' + n).classList.add('active');
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
     updateProgress();
   }
 
@@ -768,6 +769,7 @@
     currentStep--;
     document.getElementById('step' + currentStep).classList.add('active');
     updateProgress();
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 
 
@@ -881,7 +883,7 @@
     document.getElementById('maturityPct').textContent = md.pct + '%';
     setTimeout(() => { document.getElementById('maturityBar').style.width = md.pct + '%'; }, 100);
     document.getElementById('btnWA').href = 'https://wa.me/593979841655?text=' + encodeURIComponent(buildWAMessage());
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 
   function restart() {
@@ -895,7 +897,7 @@
     document.getElementById('secondPainCard').style.display = 'none';
     document.getElementById('maturityBar').style.width = '0%';
     document.getElementById('welcome').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(function(){ window.scrollTo(0, 0); }, 50);
   }
 </script>
 </body>
