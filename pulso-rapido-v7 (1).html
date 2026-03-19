@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulso Rápido — Diagnóstico de Negocio · Inti Horizons IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0D2B;
+    --surface: #111130;
+    --surface2: #1A1A6E22;
+    --surface-card: #0f0f28;
+    --border: rgba(212,175,55,0.12);
+    --border-dim: rgba(255,255,255,0.06);
+    --gold: #D4AF37;
+    --gold-bright: #F0D050;
+    --gold-light: #F5E070;
+    --gold-dark: #9A7010;
+    --gold-dim: rgba(212,175,55,0.12);
+    --gold-glow: rgba(212,175,55,0.07);
+    --text: #FFFFFF;
+    --text-soft: #E8E8FF;
+    --text-dim: #C8C8EE;
+    --text-muted: #9090bb;
+    --green: #4caf82;
+    --amber: #e8a84b;
+    --red: #e85a4b;
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 80px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Ambient indigo glow top-right — brand element */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -150px; right: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(45,45,184,0.18) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Gold bar at bottom — brand element */
+  .gold-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), var(--gold-bright), var(--gold), transparent);
+    opacity: 0.5;
+    z-index: 200;
+  }
+
+  /* Sun watermark bottom-right — brand element, now visible */
+  .sun-watermark {
+    position: fixed;
+    bottom: 18px; right: 18px;
+    width: 90px; height: 90px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Strapline top-right — brand element */
+  .strapline {
+    position: fixed;
+    top: 14px; right: 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px; font-style: italic;
+    color: var(--gold);
+    letter-spacing: 0.3px;
+    z-index: 100;
+    text-align: right;
+    line-height: 1.4;
+    max-width: 170px;
+    opacity: 0.85;
+    text-shadow: 0 0 12px rgba(212,175,55,0.3);
+  }
+
+  /* DEMO label — only on welcome screen, not fixed */
+  .demo-label-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(212,175,55,0.08);
+    border: 1px solid rgba(212,175,55,0.2);
+    color: var(--gold-dark);
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  /* ── WELCOME ── */
+  #welcome {
+    width: 100%; max-width: 480px;
+    padding: 60px 24px 0;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .welcome-eyebrow {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 3px; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 14px; opacity: 0.8;
+  }
+
+  .welcome-title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 28px; font-weight: bold;
+    line-height: 1.2; color: var(--text);
+    margin-bottom: 14px;
+  }
+  .welcome-title em { color: var(--gold-bright); font-style: normal; }
+
+  /* Business name input */
+  .biz-name-wrap {
+    margin-bottom: 20px;
+  }
+  .biz-name-label {
+    font-size: 12px; color: var(--text-dim);
+    margin-bottom: 7px; display: block; font-weight: 400;
+  }
+  .biz-name-input {
+    width: 100%;
+    background: var(--surface-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px; color: var(--text);
+    outline: none; transition: border-color 0.2s;
+  }
+  .biz-name-input::placeholder { color: var(--text-muted); font-size: 13px; }
+  .biz-name-input:focus { border-color: rgba(212,175,55,0.45); }
+
+  .welcome-desc {
+    font-size: 13px; color: var(--text-dim);
+    line-height: 1.65; font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .demo-notice {
+    background: var(--surface-card);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px; margin-bottom: 24px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .demo-notice-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .demo-notice-text { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+  .demo-notice-text strong { color: var(--text-dim); font-weight: 500; }
+
+  .welcome-meta { display: flex; gap: 20px; margin-bottom: 28px; }
+  .meta-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); }
+  .meta-item span { font-size: 14px; }
+
+  .btn-start {
+    width: 100%; padding: 16px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-bright));
+    border: none; border-radius: var(--radius-sm);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: #0D0D2B; cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 4px 24px rgba(212,175,55,0.25);
+  }
+  .btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(212,175,55,0.4); }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    width: 100%; max-width: 480px;
+    padding: 20px 24px 0;
+    position: relative; z-index: 1; display: none;
+  }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+  .btn-back {
+    background: none; border: none;
+    font-size: 12px; color: var(--text-muted);
+    cursor: pointer; padding: 4px 0;
+    font-family: 'Outfit', sans-serif; transition: color 0.2s; display: none;
+  }
+  .btn-back.visible { display: block; }
+  .btn-back:hover { color: var(--text-dim); }
+  .progress-bar { width: 100%; height: 2px; background: var(--border-dim); border-radius: 2px; overflow: hidden; }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+    border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── STEPS ── */
+  .content { width: 100%; max-width: 480px; padding: 22px 24px; position: relative; z-index: 1; }
+
+  .step { display: none; animation: stepIn 0.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+  .step.active { display: block; }
+
+  @keyframes stepIn { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+  .step-q {
+    font-family: Georgia, serif;
+    font-size: 20px; font-weight: bold;
+    color: var(--text); line-height: 1.3; margin-bottom: 5px;
+  }
+  .step-hint { font-size: 13px; color: var(--text-dim); margin-bottom: 18px; font-weight: 400; }
+
+  /* Options */
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 8px; }
+  .options-grid.single { grid-template-columns: 1fr; }
+
+  .opt {
+    background: var(--surface-card);
+    border: 1.5px solid var(--border-dim);
+    border-radius: var(--radius-sm); padding: 13px 12px;
+    cursor: pointer; transition: all 0.2s; text-align: center;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  .opt:active { transform: scale(0.97); }
+  .opt.selected { border-color: var(--gold); background: var(--gold-dim); }
+  .opt:hover:not(.selected) { border-color: rgba(212,175,55,0.2); background: rgba(26,26,110,0.3); }
+  .opt-icon { font-size: 22px; margin-bottom: 6px; display: block; }
+  .opt-label { font-size: 12px; font-weight: 500; color: var(--text-soft); line-height: 1.3; }
+  .opt.selected .opt-label { color: var(--gold-bright); }
+
+  /* Pain grid */
+  .pain-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+  .pain-opt {
+    background: var(--surface-card);
+    border: 1.5px solid var(--border-dim);
+    border-radius: var(--radius-sm); padding: 12px 14px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 12px;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  .pain-opt:active { transform: scale(0.98); }
+  .pain-opt.selected { border-color: var(--gold); background: var(--gold-dim); }
+  .pain-opt:hover:not(.selected) { border-color: rgba(212,175,55,0.2); background: rgba(26,26,110,0.3); }
+  .pain-icon { font-size: 18px; flex-shrink: 0; }
+  .pain-text { flex: 1; }
+  .pain-title { font-size: 13px; font-weight: 600; color: var(--text-soft); margin-bottom: 2px; }
+  .pain-sub { font-size: 11px; color: var(--text-muted); font-weight: 300; }
+  .pain-opt.selected .pain-title { color: var(--gold-bright); }
+  .pain-check {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1.5px solid var(--text-muted); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; transition: all 0.2s;
+  }
+  .pain-opt.selected .pain-check { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+  /* Urgency / prior */
+  .urgency-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+  .urgency-opt {
+    background: var(--surface-card);
+    border: 1.5px solid var(--border-dim);
+    border-radius: var(--radius-sm); padding: 13px 14px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 13px;
+    user-select: none; -webkit-tap-highlight-color: transparent;
+  }
+  .urgency-opt:active { transform: scale(0.98); }
+  .urgency-opt.selected { border-color: var(--gold); background: var(--gold-dim); }
+  .urgency-opt:hover:not(.selected) { border-color: rgba(212,175,55,0.2); background: rgba(26,26,110,0.3); }
+  .urgency-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .urgency-dot.green { background: var(--green); }
+  .urgency-dot.amber { background: var(--amber); }
+  .urgency-dot.red { background: var(--red); }
+  .urgency-text { flex: 1; }
+  .urgency-label { font-size: 13px; font-weight: 500; color: var(--text-soft); }
+  .urgency-sub { font-size: 11px; color: var(--text-muted); font-weight: 300; margin-top: 2px; }
+  .urgency-opt.selected .urgency-label { color: var(--gold-bright); }
+
+  /* Next button */
+  .btn-next {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-bright));
+    border: none; border-radius: var(--radius-sm);
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: #0D0D2B; cursor: pointer; transition: all 0.3s;
+    margin-top: 14px; display: none;
+    box-shadow: 0 4px 20px rgba(212,175,55,0.2);
+  }
+  .btn-next.visible { display: block; }
+  .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(212,175,55,0.38); }
+
+  /* ── RESULT ── */
+  #result { display: none; }
+  #result.active { display: block; animation: stepIn 0.5s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+  /* Gold separator */
+  .gold-sep { width: 40px; height: 2px; background: var(--gold); opacity: 0.6; margin-bottom: 16px; border-radius: 1px; }
+
+  .result-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--gold-dark); text-transform: uppercase; margin-bottom: 8px; }
+  .result-headline {
+    font-family: Georgia, serif;
+    font-size: 22px; font-weight: bold;
+    line-height: 1.25; color: var(--text); margin-bottom: 10px;
+  }
+
+  .result-pills { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 20px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 11px; border-radius: 20px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .pill.sector { background: rgba(26,26,110,0.4); border: 1px solid rgba(212,175,55,0.18); color: var(--text-dim); }
+  .pill.green { background: rgba(76,175,130,0.12); border: 1px solid rgba(76,175,130,0.25); color: var(--green); }
+  .pill.amber { background: rgba(232,168,75,0.12); border: 1px solid rgba(232,168,75,0.25); color: var(--amber); }
+  .pill.red { background: rgba(232,90,75,0.12); border: 1px solid rgba(232,90,75,0.25); color: var(--red); }
+
+  /* Cards */
+  .result-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+  .result-card.accent { border-color: rgba(212,175,55,0.2); background: linear-gradient(135deg, var(--surface-card), rgba(212,175,55,0.03)); }
+
+  .card-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 2.5px;
+    color: var(--gold-dark); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .card-text { font-size: 14px; line-height: 1.7; color: var(--text-dim); font-weight: 400; }
+  .card-text strong { color: var(--text); font-weight: 600; }
+
+  /* Urgency signals */
+  .urgency-signal { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border-dim); }
+  .urgency-signal:last-child { border-bottom: none; }
+  .us-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .us-dot.green { background: var(--green); }
+  .us-dot.amber { background: var(--amber); }
+  .us-dot.red { background: var(--red); }
+  .us-text { font-size: 14px; color: var(--text-dim); font-weight: 400; line-height: 1.55; }
+  .us-text strong { color: var(--text); font-weight: 600; }
+
+  /* Bullets */
+  .inti-list { list-style: none; }
+  .inti-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 9px 0; border-bottom: 1px solid var(--border-dim);
+    font-size: 14px; color: var(--text-dim); font-weight: 400; line-height: 1.5;
+  }
+  .inti-list li:last-child { border-bottom: none; }
+  .inti-list li::before { content: '→'; color: var(--gold); font-size: 11px; flex-shrink: 0; margin-top: 2px; font-weight: 600; }
+
+  /* Maturity */
+  .maturity-wrap { margin-top: 12px; }
+  .maturity-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .maturity-track { height: 3px; background: var(--border-dim); border-radius: 2px; overflow: hidden; }
+  .maturity-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); border-radius: 2px; transition: width 1s cubic-bezier(0.4,0,0.2,1) 0.3s; }
+
+  /* Deep dive CTA */
+  .deepdive-card {
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(26,26,110,0.3), rgba(212,175,55,0.04));
+    padding: 22px 18px; margin-bottom: 10px;
+  }
+  .deepdive-title { font-family: Georgia, serif; font-size: 17px; font-weight: bold; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+  .deepdive-title em { color: var(--gold-bright); font-style: normal; }
+  .deepdive-body { font-size: 13px; color: var(--text-dim); line-height: 1.6; font-weight: 300; margin-bottom: 16px; }
+  .deepdive-body strong { color: var(--text-soft); font-weight: 500; }
+
+  .deepdive-list { list-style: none; margin-bottom: 20px; }
+  .deepdive-list li { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--text-muted); line-height: 1.55; padding: 5px 0; }
+  .deepdive-list li::before { content: '✦'; color: var(--gold); font-size: 8px; flex-shrink: 0; margin-top: 4px; opacity: 0.7; }
+
+  /* CTA buttons */
+  .cta-buttons { display: flex; flex-direction: column; gap: 9px; }
+
+  .btn-wa-primary {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-bright));
+    color: #0D0D2B; font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px;
+    padding: 15px 24px; border-radius: 50px;
+    text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; width: 100%;
+    box-shadow: 0 4px 24px rgba(212,175,55,0.3);
+  }
+  .btn-wa-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(212,175,55,0.45); }
+
+  .btn-wa-secondary {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: rgba(212,175,55,0.06);
+    color: var(--gold); font-family: 'Outfit', sans-serif;
+    font-size: 12px; font-weight: 500;
+    padding: 13px 24px; border-radius: 50px;
+    text-decoration: none; transition: all 0.2s;
+    border: 1px solid rgba(212,175,55,0.25); cursor: pointer; width: 100%;
+  }
+  .btn-wa-secondary:hover { background: rgba(212,175,55,0.1); border-color: rgba(212,175,55,0.4); }
+
+  .btn-restart {
+    background: none; border: 1px solid var(--border-dim);
+    color: var(--text-muted); font-family: 'Outfit', sans-serif;
+    font-size: 12px; padding: 10px 20px; border-radius: 50px;
+    cursor: pointer; width: 100%; margin-top: 10px; transition: all 0.2s;
+  }
+  .btn-restart:hover { border-color: rgba(212,175,55,0.2); color: var(--text-dim); }
+
+  /* Footer */
+  .footer-note {
+    text-align: center; font-size: 10px; color: var(--text-muted);
+    padding: 20px 24px 0; line-height: 1.6;
+    max-width: 480px; width: 100%;
+    position: relative; z-index: 1;
+  }
+  .footer-note .brand { color: var(--gold-dark); font-weight: 500; letter-spacing: 1px; }
+
+  /* Voice output */
+  .voice-btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 13px 20px;
+    background: rgba(212,175,55,0.06);
+    border: 1px solid rgba(212,175,55,0.22);
+    border-radius: var(--radius-sm);
+    color: var(--gold); font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; margin-bottom: 12px;
+  }
+  .voice-btn:hover { background: rgba(212,175,55,0.12); border-color: rgba(212,175,55,0.4); }
+  .voice-btn.speaking { background: rgba(212,175,55,0.14); border-color: var(--gold); }
+  .voice-btn .voice-icon { font-size: 18px; flex-shrink: 0; }
+  .voice-btn .voice-label { flex: 1; text-align: left; }
+  .voice-btn .voice-stop { font-size: 11px; color: var(--text-muted); }
+</style>
+
+<!-- Open Graph / WhatsApp -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://intisteve.github.io/pulsos/pulso-rapido-v7.html" />
+<meta property="og:title" content="Diagnóstico Rápido para tu Negocio — Inti Horizons IA" />
+<meta property="og:description" content="¿Algo no está funcionando? Un pulso rápido puede revelar qué. 7 preguntas · Sin rodeos · Sin costo." />
+<meta property="og:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<!-- Twitter card (WhatsApp fallback) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Diagnóstico Rápido para tu Negocio — Inti Horizons IA" />
+<meta name="twitter:description" content="¿Algo no está funcionando? Un pulso rápido puede revelar qué. 7 preguntas · Sin rodeos · Sin costo." />
+<meta name="twitter:image" content="https://intisteve.github.io/pulsos/pulso-og-card.png" />
+</head>
+<body>
+
+<!-- Brand fixtures -->
+<div class="gold-bar"></div>
+<svg class="sun-watermark" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="rG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F5E070"/><stop offset="100%" stop-color="#9A7010"/></linearGradient><radialGradient id="cG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1E1E7A"/><stop offset="100%" stop-color="#080820"/></radialGradient><radialGradient id="gG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.18"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="236" fill="url(#gG)"/><path d="M200.0 132.0 C219.0 92.1 181.0 54.5 200.0 18.0" stroke="url(#rG)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M221.0 135.3 C249.1 110.5 222.3 69.9 249.5 47.7" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M240.0 145.0 C280.7 121.3 273.8 66.1 312.3 45.4" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M255.0 160.0 C294.3 154.9 298.6 104.9 335.5 101.6" stroke="url(#rG)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M264.7 179.0 C308.5 184.7 332.5 137.0 373.1 143.8" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M268.0 200.0 C298.3 219.0 327.0 181.0 354.7 200.0" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M264.7 221.0 C301.6 253.0 353.7 230.0 386.9 260.7" stroke="url(#rG)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M255.0 240.0 C272.5 276.2 321.9 265.1 336.9 299.5" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M240.0 255.0 C248.1 298.5 300.9 306.6 307.0 347.2" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M221.0 264.7 C212.7 300.6 258.1 317.2 248.9 350.6" stroke="url(#rG)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M200.0 268.0 C181.0 311.1 219.0 351.7 200.0 391.1" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M179.0 264.7 C150.6 290.7 176.9 332.5 149.4 355.8" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M160.0 255.0 C121.2 276.1 129.8 328.9 93.0 347.2" stroke="url(#rG)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M145.0 240.0 C107.7 243.6 105.5 292.2 70.4 294.1" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M135.3 221.0 C87.9 216.5 60.4 265.3 16.5 259.6" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M132.0 200.0 C97.2 181.0 64.4 219.0 32.6 200.0" stroke="url(#rG)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M135.3 179.0 C103.3 148.6 55.7 173.1 26.9 143.8" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M145.0 160.0 C131.6 126.8 86.1 140.7 74.8 109.1" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M160.0 145.0 C150.5 99.5 96.2 89.4 88.7 46.9" stroke="url(#rG)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M179.0 135.3 C186.5 97.0 140.4 78.1 148.8 42.5" stroke="url(#rG)" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="200" cy="200" r="68" fill="url(#cG)"/><circle cx="200" cy="200" r="68" stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.85"/><circle cx="200" cy="200" r="55" stroke="#D4AF37" stroke-width="1" fill="none" opacity="0.3"/></svg>
+<div class="strapline">IA de Ecuador que<br>piensa y habla como tú</div>
+
+<!-- WELCOME -->
+<div id="welcome">
+  <div style="display:flex;flex-direction:column;align-items:center;padding:48px 24px 0;max-width:480px;width:100%;position:relative;z-index:1;text-align:center">
+    <svg width="90" height="90" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:14px"><defs><linearGradient id="rG2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F5E070"/><stop offset="100%" stop-color="#9A7010"/></linearGradient><radialGradient id="cG2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1E1E7A"/><stop offset="100%" stop-color="#080820"/></radialGradient><radialGradient id="gG2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.22"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="236" fill="url(#gG2)"/><path d="M200.0 132.0 C219.0 92.1 181.0 54.5 200.0 18.0" stroke="url(#rG2)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M221.0 135.3 C249.1 110.5 222.3 69.9 249.5 47.7" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M240.0 145.0 C280.7 121.3 273.8 66.1 312.3 45.4" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M255.0 160.0 C294.3 154.9 298.6 104.9 335.5 101.6" stroke="url(#rG2)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M264.7 179.0 C308.5 184.7 332.5 137.0 373.1 143.8" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M268.0 200.0 C298.3 219.0 327.0 181.0 354.7 200.0" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M264.7 221.0 C301.6 253.0 353.7 230.0 386.9 260.7" stroke="url(#rG2)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M255.0 240.0 C272.5 276.2 321.9 265.1 336.9 299.5" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M240.0 255.0 C248.1 298.5 300.9 306.6 307.0 347.2" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M221.0 264.7 C212.7 300.6 258.1 317.2 248.9 350.6" stroke="url(#rG2)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M200.0 268.0 C181.0 311.1 219.0 351.7 200.0 391.1" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M179.0 264.7 C150.6 290.7 176.9 332.5 149.4 355.8" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M160.0 255.0 C121.2 276.1 129.8 328.9 93.0 347.2" stroke="url(#rG2)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M145.0 240.0 C107.7 243.6 105.5 292.2 70.4 294.1" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M135.3 221.0 C87.9 216.5 60.4 265.3 16.5 259.6" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M132.0 200.0 C97.2 181.0 64.4 219.0 32.6 200.0" stroke="url(#rG2)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M135.3 179.0 C103.3 148.6 55.7 173.1 26.9 143.8" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M145.0 160.0 C131.6 126.8 86.1 140.7 74.8 109.1" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M160.0 145.0 C150.5 99.5 96.2 89.4 88.7 46.9" stroke="url(#rG2)" stroke-width="3.1" stroke-linecap="round" fill="none"/><path d="M179.0 135.3 C186.5 97.0 140.4 78.1 148.8 42.5" stroke="url(#rG2)" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="200" cy="50.8" r="3.9" fill="#D4AF37" opacity="0.9"/><circle cx="237.6" cy="84.2" r="3.1" fill="#D4AF37" opacity="0.9"/><circle cx="298.8" cy="63.9" r="3.6" fill="#D4AF37" opacity="0.6"/><circle cx="297.5" cy="129.1" r="2.8" fill="#D4AF37" opacity="0.9"/><circle cx="347.1" cy="152.2" r="3.9" fill="#D4AF37" opacity="0.9"/><circle cx="320.7" cy="200.0" r="3.1" fill="#D4AF37" opacity="0.9"/><circle cx="368.2" cy="254.7" r="3.5" fill="#D4AF37" opacity="0.6"/><circle cx="301.3" cy="273.6" r="2.9" fill="#D4AF37" opacity="0.9"/><circle cx="288.8" cy="322.2" r="3.8" fill="#D4AF37" opacity="0.9"/><circle cx="237.7" cy="316.0" r="3.2" fill="#D4AF37" opacity="0.9"/><circle cx="200.0" cy="366.3" r="3.6" fill="#D4AF37" opacity="0.6"/><circle cx="164.1" cy="310.6" r="2.8" fill="#D4AF37" opacity="0.9"/><circle cx="110.1" cy="323.7" r="3.9" fill="#D4AF37" opacity="0.9"/><circle cx="97.6" cy="274.4" r="3.1" fill="#D4AF37" opacity="0.9"/><circle cx="36.7" cy="253.1" r="3.6" fill="#D4AF37" opacity="0.6"/><circle cx="77.8" cy="200.0" r="2.9" fill="#D4AF37" opacity="0.9"/><circle cx="58.1" cy="153.9" r="3.8" fill="#D4AF37" opacity="0.9"/><circle cx="104.9" cy="130.9" r="3.2" fill="#D4AF37" opacity="0.9"/><circle cx="104.3" cy="68.3" r="3.5" fill="#D4AF37" opacity="0.6"/><circle cx="161.6" cy="81.9" r="3.1" fill="#D4AF37" opacity="0.9"/><circle cx="200" cy="200" r="68" fill="url(#cG2)"/><circle cx="200" cy="200" r="68" stroke="#D4AF37" stroke-width="2" fill="none" opacity="0.85"/><circle cx="200" cy="200" r="55" stroke="#D4AF37" stroke-width="1" fill="none" opacity="0.3"/></svg>
+    <div style="font-family:Georgia,serif;font-size:20px;font-weight:bold;letter-spacing:3px;color:#FFFFFF;text-transform:uppercase;margin-bottom:6px">INTI HORIZONS <span style="color:var(--gold)">IA</span></div>
+    <div style="width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 10px;opacity:0.7"></div>
+    <div style="font-family:Georgia,serif;font-size:13px;font-style:italic;color:var(--gold-bright);letter-spacing:0.3px">Transforma tu mundo con Inteligencia Artificial</div>
+  </div>
+
+  <div style="max-width:480px;width:100%;padding:20px 24px 0;position:relative;z-index:1;animation:fadeUp 0.5s ease forwards">
+    <div class="demo-label-inline">✦ Demostración pre-estructurada · Cualquier Sector</div>
+    <h1 class="welcome-title">¿Cuál es el <em>verdadero pulso</em> de tu negocio?</h1>
+
+    <div class="biz-name-wrap">
+      <label class="biz-name-label" for="bizName">¿Cómo se llama tu negocio? <span style="color:var(--text-muted)">(opcional)</span></label>
+      <input type="text" id="bizName" class="biz-name-input" placeholder="Ej: Panadería San Sebastián..." maxlength="60" autocomplete="off">
+    </div>
+
+    <p class="welcome-desc">Responde 7 preguntas rápidas y recibe un diagnóstico inicial de los principales puntos de dolor en tu negocio — y cómo la IA puede ayudar.</p>
+
+    <div class="demo-notice">
+      <div class="demo-notice-icon">💡</div>
+      <div class="demo-notice-text">
+        <strong>Esto es una demostración pre-estructurada</strong> — diseñada para mostrarte el tipo de análisis que la IA puede hacer, no para reemplazar un diagnóstico real. Las respuestas que verás son representativas de negocios similares al tuyo, no de tu negocio específico.
+      </div>
+    </div>
+
+    <div class="welcome-meta">
+      <div class="meta-item"><span>🕐</span> 3–4 minutos</div>
+      <div class="meta-item"><span>❓</span> 7 preguntas</div>
+      <div class="meta-item"><span>🔒</span> Sin registro obligatorio</div>
+    </div>
+
+    <button class="btn-start" onclick="startDiag()">EMPEZAR EL DIAGNÓSTICO →</button>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-top">
+    <div class="progress-label" id="progressLabel">Pregunta 1 de 7</div>
+    <button class="btn-back" id="btnBack" onclick="goBack()">← Volver</button>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:14%"></div>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="content" id="stepsContent" style="display:none">
+
+  <!-- Q1: Sector -->
+  <div class="step active" id="step1">
+    <div class="step-q">¿A qué se dedica tu negocio?</div>
+    <div class="step-hint">Elige el que más se parece</div>
+    <div class="options-grid">
+      <div class="opt" data-val="restaurante" onclick="selectSingle(this,'sector')"><span class="opt-icon">🍽️</span><div class="opt-label">Restaurante / Cafetería</div></div>
+      <div class="opt" data-val="tienda" onclick="selectSingle(this,'sector')"><span class="opt-icon">🏪</span><div class="opt-label">Tienda / Minimarket / Ferretería</div></div>
+      <div class="opt" data-val="taller" onclick="selectSingle(this,'sector')"><span class="opt-icon">🔧</span><div class="opt-label">Taller / Automotriz</div></div>
+      <div class="opt" data-val="salud" onclick="selectSingle(this,'sector')"><span class="opt-icon">🏥</span><div class="opt-label">Clínica / Farmacia / Salud</div></div>
+      <div class="opt" data-val="construccion" onclick="selectSingle(this,'sector')"><span class="opt-icon">🏗️</span><div class="opt-label">Construcción / Industria</div></div>
+      <div class="opt" data-val="transporte" onclick="selectSingle(this,'sector')"><span class="opt-icon">🚚</span><div class="opt-label">Transporte / Distribuidora</div></div>
+      <div class="opt" data-val="educacion" onclick="selectSingle(this,'sector')"><span class="opt-icon">🎓</span><div class="opt-label">Educación / Servicios Profesionales</div></div>
+      <div class="opt" data-val="otro" onclick="selectSingle(this,'sector')"><span class="opt-icon">💼</span><div class="opt-label">Otro tipo de negocio</div></div>
+    </div>
+    <button class="btn-next" id="next1" onclick="goStep(2)">SIGUIENTE →</button>
+  </div>
+
+  <!-- Q2: Size -->
+  <div class="step" id="step2">
+    <div class="step-q">¿Cuántas personas trabajan contigo?</div>
+    <div class="step-hint">Inclúyete tú</div>
+    <div class="options-grid single">
+      <div class="opt" data-val="solo" onclick="selectSingle(this,'size')"><span class="opt-icon">👤</span><div class="opt-label">Solo yo — llevo todo</div></div>
+      <div class="opt" data-val="pequeno" onclick="selectSingle(this,'size')"><span class="opt-icon">👥</span><div class="opt-label">2 a 5 personas</div></div>
+      <div class="opt" data-val="mediano" onclick="selectSingle(this,'size')"><span class="opt-icon">🏢</span><div class="opt-label">6 a 20 personas</div></div>
+      <div class="opt" data-val="grande" onclick="selectSingle(this,'size')"><span class="opt-icon">🏭</span><div class="opt-label">Más de 20</div></div>
+    </div>
+    <button class="btn-next" id="next2" onclick="goStep(3)">SIGUIENTE →</button>
+  </div>
+
+  <!-- Q3: Pain points (max 2) -->
+  <div class="step" id="step3">
+    <div class="step-q">¿Qué te quita más tiempo o te preocupa más?</div>
+    <div class="step-hint">Puedes elegir hasta 2</div>
+    <div class="pain-grid">
+      <div class="pain-opt" data-val="inventario" onclick="selectPain(this)">
+        <span class="pain-icon">📦</span>
+        <div class="pain-text"><div class="pain-title">Inventario y stock</div><div class="pain-sub">No sé exactamente qué tengo ni cuándo reponer</div></div>
+        <div class="pain-check">✓</div>
+      </div>
+      <div class="pain-opt" data-val="cobros" onclick="selectPain(this)">
+        <span class="pain-icon">💸</span>
+        <div class="pain-text"><div class="pain-title">Cobros y fiado</div><div class="pain-sub">Me deben, no cobro a tiempo, pierdo plata en créditos</div></div>
+        <div class="pain-check">✓</div>
+      </div>
+      <div class="pain-opt" data-val="proveedores" onclick="selectPain(this)">
+        <span class="pain-icon">🚛</span>
+        <div class="pain-text"><div class="pain-title">Proveedores y compras</div><div class="pain-sub">Comparar precios, hacer pedidos, negociar condiciones</div></div>
+        <div class="pain-check">✓</div>
+      </div>
+      <div class="pain-opt" data-val="personal" onclick="selectPain(this)">
+        <span class="pain-icon">👥</span>
+        <div class="pain-text"><div class="pain-title">Personal y turnos</div><div class="pain-sub">Horarios, ausencias, pagos, conflictos con el equipo</div></div>
+        <div class="pain-check">✓</div>
+      </div>
+      <div class="pain-opt" data-val="clientes" onclick="selectPain(this)">
+        <span class="pain-icon">📱</span>
+        <div class="pain-text"><div class="pain-title">Clientes y marketing</div><div class="pain-sub">Atraer nuevos, retener los que tengo, redes sociales</div></div>
+        <div class="pain-check">✓</div>
+      </div>
+      <div class="pain-opt" data-val="tiempo" onclick="selectPain(this)">
+        <span class="pain-icon">⏰</span>
+        <div class="pain-text"><div class="pain-title">Tiempo y administración</div><div class="pain-sub">Demasiadas tareas manuales, hacer cuentas, informes</div></div>
+        <div class="pain-check">✓</div>
+      </div>
+    </div>
+    <button class="btn-next" id="next3" onclick="goStep(4)">SIGUIENTE →</button>
+  </div>
+
+  <!-- Q4: Sales channel -->
+  <div class="step" id="step4">
+    <div class="step-q">¿Cómo llegan tus clientes o pedidos principalmente?</div>
+    <div class="step-hint">El canal más frecuente</div>
+    <div class="options-grid">
+      <div class="opt" data-val="presencial" onclick="selectSingle(this,'channel')"><span class="opt-icon">🚶</span><div class="opt-label">En persona, al local</div></div>
+      <div class="opt" data-val="whatsapp" onclick="selectSingle(this,'channel')"><span class="opt-icon">💬</span><div class="opt-label">Por WhatsApp</div></div>
+      <div class="opt" data-val="telefono" onclick="selectSingle(this,'channel')"><span class="opt-icon">📞</span><div class="opt-label">Por teléfono</div></div>
+      <div class="opt" data-val="redes" onclick="selectSingle(this,'channel')"><span class="opt-icon">📲</span><div class="opt-label">Redes sociales</div></div>
+      <div class="opt" data-val="referidos" onclick="selectSingle(this,'channel')"><span class="opt-icon">🤝</span><div class="opt-label">Referidos / boca a boca</div></div>
+      <div class="opt" data-val="mixto" onclick="selectSingle(this,'channel')"><span class="opt-icon">🔀</span><div class="opt-label">Por varios canales</div></div>
+    </div>
+    <button class="btn-next" id="next4" onclick="goStep(5)">SIGUIENTE →</button>
+  </div>
+
+  <!-- Q5: Current control -->
+  <div class="step" id="step5">
+    <div class="step-q">¿Cómo llevas el control del negocio ahora mismo?</div>
+    <div class="step-hint">Sin juicios — solo queremos entender de dónde partes</div>
+    <div class="options-grid">
+      <div class="opt" data-val="cuaderno" onclick="selectSingle(this,'control')"><span class="opt-icon">📔</span><div class="opt-label">Cuaderno o papel</div></div>
+      <div class="opt" data-val="excel" onclick="selectSingle(this,'control')"><span class="opt-icon">📊</span><div class="opt-label">Excel o planilla</div></div>
+      <div class="opt" data-val="app" onclick="selectSingle(this,'control')"><span class="opt-icon">📱</span><div class="opt-label">Una app o sistema</div></div>
+      <div class="opt" data-val="memoria" onclick="selectSingle(this,'control')"><span class="opt-icon">🧠</span><div class="opt-label">De memoria</div></div>
+      <div class="opt" data-val="nada" onclick="selectSingle(this,'control')"><span class="opt-icon">🤷</span><div class="opt-label">Todavía no tengo un sistema</div></div>
+      <div class="opt" data-val="mixto" onclick="selectSingle(this,'control')"><span class="opt-icon">🔀</span><div class="opt-label">Una mezcla de todo</div></div>
+    </div>
+    <button class="btn-next" id="next5" onclick="goStep(6)">SIGUIENTE →</button>
+  </div>
+
+  <!-- Q6: Cash urgency -->
+  <div class="step" id="step6">
+    <div class="step-q">¿Cómo está tu situación de caja en este momento?</div>
+    <div class="step-hint">No necesitas dar números — solo tu percepción</div>
+    <div class="urgency-grid">
+      <div class="urgency-opt" data-val="tranquilo" onclick="selectSingle(this,'urgency')">
+        <div class="urgency-dot green"></div>
+        <div class="urgency-text"><div class="urgency-label">Tranquilo, tengo margen</div><div class="urgency-sub">El negocio está estable, hay liquidez suficiente</div></div>
+      </div>
+      <div class="urgency-opt" data-val="ajustado" onclick="selectSingle(this,'urgency')">
+        <div class="urgency-dot amber"></div>
+        <div class="urgency-text"><div class="urgency-label">Ajustado pero manejable</div><div class="urgency-sub">Llego a fin de mes, pero con poco margen de error</div></div>
+      </div>
+      <div class="urgency-opt" data-val="preocupado" onclick="selectSingle(this,'urgency')">
+        <div class="urgency-dot red"></div>
+        <div class="urgency-text"><div class="urgency-label">Preocupado, necesito soluciones</div><div class="urgency-sub">La liquidez es un problema real ahora mismo</div></div>
+      </div>
+    </div>
+    <button class="btn-next" id="next6" onclick="goStep(7)">SIGUIENTE →</button>
+  </div>
+
+  <!-- Q7: Prior attempts -->
+  <div class="step" id="step7">
+    <div class="step-q">¿Ya intentaste resolver el problema principal que mencionaste?</div>
+    <div class="step-hint">Tu experiencia previa importa</div>
+    <div class="urgency-grid">
+      <div class="urgency-opt" data-val="nunca" onclick="selectSingle(this,'prior')">
+        <span style="font-size:18px;flex-shrink:0">🔍</span>
+        <div class="urgency-text"><div class="urgency-label">Nunca encontré nada que funcione</div><div class="urgency-sub">El problema sigue sin solución real</div></div>
+      </div>
+      <div class="urgency-opt" data-val="probe" onclick="selectSingle(this,'prior')">
+        <span style="font-size:18px;flex-shrink:0">🔧</span>
+        <div class="urgency-text"><div class="urgency-label">Probé algo pero no sirvió</div><div class="urgency-sub">Intenté una app, sistema o método y no funcionó</div></div>
+      </div>
+      <div class="urgency-opt" data-val="esfuerzo" onclick="selectSingle(this,'prior')">
+        <span style="font-size:18px;flex-shrink:0">⚙️</span>
+        <div class="urgency-text"><div class="urgency-label">Lo manejo, pero con mucho esfuerzo</div><div class="urgency-sub">Tengo un sistema, pero consume demasiado tiempo</div></div>
+      </div>
+      <div class="urgency-opt" data-val="ninguno" onclick="selectSingle(this,'prior')">
+        <span style="font-size:18px;flex-shrink:0">💭</span>
+        <div class="urgency-text"><div class="urgency-label">Aún no he intentado nada</div><div class="urgency-sub">Sabía que era un problema pero no lo había atacado</div></div>
+      </div>
+    </div>
+    <button class="btn-next" id="next7" onclick="generateResult()">VER MI DIAGNÓSTICO ✦</button>
+  </div>
+
+</div>
+
+<!-- RESULT -->
+<div class="content" id="resultContent" style="display:none">
+  <div id="result">
+
+    <div class="result-eyebrow">Tu diagnóstico · orientación inicial</div>
+    <div class="result-headline" id="resultHeadline"></div>
+    <div class="result-pills" id="resultPills"></div>
+
+    <div class="result-card accent">
+      <div class="card-label">Lo que está pasando</div>
+      <div class="card-text" id="resultPainText"></div>
+    </div>
+
+    <div class="result-card" id="secondPainCard" style="display:none">
+      <div class="card-label">También identificamos</div>
+      <div class="card-text" id="resultSecondPain"></div>
+    </div>
+
+    <div class="result-card" id="urgencyCard">
+      <div class="card-label">Señales de situación</div>
+      <div id="urgencySignals"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="card-label">Esto incluye, entre otras cosas, lo que la IA puede hacer</div>
+      <ul class="inti-list" id="resultIntiList"></ul>
+    </div>
+
+    <div class="result-card">
+      <div class="card-label">Tu punto de partida digital</div>
+      <div class="card-text" id="resultMaturityText"></div>
+      <div class="maturity-wrap">
+        <div class="maturity-label"><span>Madurez tecnológica</span><span id="maturityPct"></span></div>
+        <div class="maturity-track"><div class="maturity-fill" id="maturityBar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- Voice output -->
+    <button class="voice-btn" id="voiceBtn" onclick="toggleSpeech()">
+      <span class="voice-icon">🔊</span>
+      <span class="voice-label">Escuchar mi diagnóstico en voz alta</span>
+      <span class="voice-stop" id="voiceStop"></span>
+    </button>
+
+    <!-- Reframed CTA -->
+    <div class="deepdive-card">
+      <div class="deepdive-title">¿Quieres profundizar — y ver qué puede hacer la <em>IA exactamente</em> para tu negocio?</div>
+      <div class="deepdive-body">
+        Lo que acabas de ver es una <strong>demostración de lo que la IA puede hacer</strong> — con respuestas genéricas. El diagnóstico real es distinto: trabajamos contigo para entender tu operación, tus números, tus procesos y tu equipo. El resultado es un análisis específico para tu negocio, no para uno parecido, y herramientas configuradas para cómo tú realmente trabajas.
+      </div>
+      <ul class="deepdive-list">
+        <li>Diagnóstico real basado en tus datos, tu equipo y tu forma de operar — no en promedios del sector</li>
+        <li>Identificación de las 2–3 mejoras de mayor impacto inmediato en tu negocio específico</li>
+        <li>Demo en vivo de las herramientas más relevantes para tu situación — con tu propio negocio como ejemplo</li>
+        <li>Estimación concreta de tiempo y dinero que podrías recuperar — no cifras genéricas</li>
+        <li>Sin compromiso — una conversación para ver si tiene sentido, nada más</li>
+      </ul>
+      <div class="cta-buttons">
+        <a id="btnWA" href="https://wa.me/593979841655" class="btn-wa-primary" target="_blank">
+          💬 &nbsp;Quiero saber más — o el diagnóstico completo
+        </a>
+      </div>
+    </div>
+
+    <button class="btn-restart" onclick="restart()">← Hacer el diagnóstico de nuevo</button>
+  </div>
+</div>
+
+<div class="footer-note" id="footerNote">
+  <span class="brand">INTI HORIZONS IA</span> · Cuenca, Ecuador<br>
+  Herramienta de orientación — resultados indicativos, no sustitutos de un análisis profesional
+</div>
+
+<script>
+  const state = { sector:null, size:null, pains:[], channel:null, control:null, urgency:null, prior:null };
+  let currentStep = 0; // 0 = welcome
+
+  function startDiag() {
+    document.getElementById('welcome').style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'block';
+    document.getElementById('stepsContent').style.display = 'block';
+    currentStep = 1;
+    // Ensure step1 is active (needed after restart)
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step1').classList.add('active');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    document.getElementById('progressLabel').textContent = 'Pregunta ' + currentStep + ' de 7';
+    document.getElementById('progressFill').style.width = (currentStep / 7 * 100) + '%';
+    document.getElementById('btnBack').classList.toggle('visible', currentStep > 1);
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
+  }
+
+  function selectSingle(el, field) {
+    el.parentNode.querySelectorAll('.opt, .urgency-opt').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    state[field] = el.dataset.val;
+    document.getElementById('next' + currentStep).classList.add('visible');
+  }
+
+  function selectPain(el) {
+    const val = el.dataset.val;
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      state.pains = state.pains.filter(p => p !== val);
+    } else {
+      if (state.pains.length >= 2) {
+        const first = document.querySelector('.pain-opt.selected');
+        if (first) { first.classList.remove('selected'); state.pains = state.pains.filter(p => p !== first.dataset.val); }
+      }
+      el.classList.add('selected');
+      state.pains.push(val);
+    }
+    document.getElementById('next3').classList.toggle('visible', state.pains.length > 0);
+  }
+
+  function goStep(n) {
+    document.getElementById('step' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('step' + n).classList.add('active');
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
+    updateProgress();
+  }
+
+  function goBack() {
+    if (currentStep <= 1) return;
+    document.getElementById('step' + currentStep).classList.remove('active');
+    currentStep--;
+    document.getElementById('step' + currentStep).classList.add('active');
+    updateProgress();
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
+  }
+
+  // ── CONTENT DATA ──
+
+  const sectorLabels = { restaurante:'🍽️ Restaurante', tienda:'🏪 Tienda / Comercio', taller:'🔧 Taller', salud:'🏥 Salud', construccion:'🏗️ Construcción', transporte:'🚚 Transporte', educacion:'🎓 Servicios', otro:'💼 Negocio' };
+  const sectorNames  = { restaurante:'restaurante o cafetería', tienda:'tienda o comercio', taller:'taller o servicio técnico', salud:'negocio de salud', construccion:'constructora', transporte:'distribuidora o empresa de transporte', educacion:'negocio de servicios', otro:'negocio' };
+
+  // Sector-specific financial figures per pain
+  const sectorFinancials = {
+    inventario: {
+      restaurante: 'En un restaurante, el desperdicio de ingredientes representa entre el <strong>10–18% del costo total</strong> — y la mayoría no lo mide.',
+      tienda: 'En una tienda, entre el <strong>15–25% del inventario</strong> puede estar parado más de 60 días inmovilizando capital.',
+      taller: 'En talleres, los repuestos pedidos de urgencia cuestan en promedio <strong>20–30% más</strong> que los pedidos con planificación.',
+      salud: 'En farmacias y clínicas, quedarse sin un producto de alta rotación cuesta en promedio <strong>$8–15 por cliente perdido</strong>.',
+      construccion: 'En construcción, un retraso de materiales de 3 días puede costar <strong>$500–1,500 en mano de obra ociosa</strong>.',
+      transporte: 'En distribuidoras, las roturas de stock cuestan en promedio <strong>3–5 clientes por mes</strong> que buscan otro proveedor.',
+      educacion: 'El tiempo en gestión de materiales y recursos puede representar <strong>4–6 horas semanales</strong> del dueño.',
+      otro: 'En negocios similares, entre el <strong>15–25% del inventario</strong> puede estar parado sin que el dueño lo sepa.'
+    },
+    cobros: {
+      restaurante: 'En restaurantes con servicio de empresa o catering, la cartera informal puede llegar a <strong>$800–2,000</strong> sin seguimiento activo.',
+      tienda: 'Una tienda con 50 clientes de crédito informal puede tener entre <strong>$1,000–4,000 en cartera</strong> sin fecha de cobro definida.',
+      taller: 'En talleres, los trabajos entregados sin pago completo representan en promedio el <strong>12–18% de la facturación mensual</strong>.',
+      salud: 'En clínicas y farmacias, el crédito a pacientes frecuentes puede acumular <strong>$500–2,000 sin gestión activa</strong>.',
+      construccion: 'En construcción, los pagos parciales mal documentados generan disputas que pueden costar <strong>semanas de trabajo</strong>.',
+      transporte: 'En distribuidoras, la cartera de clientes con fiado activo puede superar los <strong>$2,000–5,000</strong> sin sistema de seguimiento.',
+      educacion: 'En servicios profesionales, las facturas vencidas no cobradas representan en promedio el <strong>15–20% de los ingresos mensuales</strong>.',
+      otro: 'Sin seguimiento activo, un negocio de tu tamaño puede tener entre <strong>$500–3,000 en cartera informal</strong> sin gestión.'
+    },
+    proveedores: {
+      restaurante: 'En un restaurante, comparar precios de 3 proveedores de insumos puede generar ahorros de <strong>$150–400 al mes</strong>.',
+      tienda: 'En una tienda con 5+ proveedores, la comparación sistemática de precios puede reducir el costo de compras entre un <strong>8–15%</strong>.',
+      taller: 'En talleres automotrices, la diferencia de precio en repuestos entre proveedores puede representar <strong>$200–500 al mes</strong>.',
+      salud: 'En farmacias, la diferencia entre proveedores de medicamentos genéricos puede significar <strong>$300–800 mensuales</strong> en margen adicional.',
+      construccion: 'En construcción, la comparación de cotizaciones puede reducir el costo de materiales entre un <strong>10–20% por proyecto</strong>.',
+      transporte: 'En distribuidoras, optimizar los pedidos a proveedores puede reducir el capital inmovilizado en stock hasta un <strong>25%</strong>.',
+      educacion: 'En servicios, la gestión de proveedores de suministros puede liberar entre <strong>3–5 horas semanales</strong> del equipo.',
+      otro: 'Una diferencia de $0.50 por unidad en productos de alta rotación puede representar <strong>$200–400 al mes</strong> en ahorro.'
+    },
+    personal: {
+      restaurante: 'En un restaurante, los errores en turnos generan ausencias que pueden costar <strong>$50–150 por incidente</strong> en cobertura de emergencia.',
+      tienda: 'En una tienda con 3–8 empleados, la gestión manual de horarios consume entre <strong>3–5 horas semanales</strong> del dueño.',
+      taller: 'En talleres, la coordinación manual de técnicos y trabajos puede significar <strong>20–30% de tiempo improductivo</strong> por desorganización.',
+      salud: 'En clínicas, los turnos mal coordinados generan tiempos muertos que representan entre <strong>$200–500 mensuales</strong> en capacidad no utilizada.',
+      construccion: 'En construcción, la mala coordinación de subcontratistas puede generar retrasos que cuestan <strong>$300–800 por día perdido</strong>.',
+      transporte: 'En transporte, la gestión de conductores y documentación consume en promedio <strong>6–8 horas semanales</strong> del administrador.',
+      educacion: 'En servicios profesionales, la coordinación de agenda y equipo puede ocupar hasta <strong>5 horas semanales</strong> en tareas no facturables.',
+      otro: 'El tiempo administrativo del dueño en gestión de personal puede superar <strong>5 horas semanales</strong>.'
+    },
+    clientes: {
+      restaurante: 'Un restaurante con presencia activa en redes recibe hasta <strong>40% más reservas</strong> desde Google Maps que uno sin respuestas a reseñas.',
+      tienda: 'Una tienda que hace seguimiento post-venta retiene hasta <strong>3x más clientes</strong> que una que solo espera que vuelvan.',
+      taller: 'Los talleres que envían recordatorios de mantenimiento por WhatsApp generan entre <strong>$300–600 mensuales</strong> en revisiones adicionales.',
+      salud: 'Las farmacias con recordatorios automáticos a pacientes crónicos aumentan la frecuencia de visitas en un <strong>25–35%</strong>.',
+      construccion: 'En construcción, el 70% de los proyectos nuevos vienen de referidos — un sistema de seguimiento puede <strong>duplicar esa tasa</strong>.',
+      transporte: 'Las distribuidoras con comunicación proactiva retienen <strong>15–20% más clientes</strong> que las que solo responden quejas.',
+      educacion: 'En servicios profesionales, el seguimiento automático post-proyecto puede generar entre <strong>$500–2,000 mensuales</strong> en trabajo adicional.',
+      otro: 'En Cuenca, más del 60% de las recomendaciones de negocios locales pasa por WhatsApp o Instagram.'
+    },
+    tiempo: {
+      restaurante: 'Responder pedidos por WhatsApp manualmente puede consumir <strong>2–3 horas diarias</strong> que un asistente IA hace en segundos.',
+      tienda: 'En una tienda, responder las mismas preguntas sobre precios, stock y horarios puede ocupar <strong>1–2 horas diarias</strong>.',
+      taller: 'En talleres, coordinar citas y responder consultas manualmente consume entre <strong>10–15 horas semanales</strong> del equipo.',
+      salud: 'En clínicas y farmacias, las consultas repetitivas por WhatsApp pueden ocupar hasta <strong>3 horas diarias</strong> del personal.',
+      construccion: 'En construcción, preparar presupuestos y coordinar con clientes puede tomar <strong>6–10 horas semanales</strong>.',
+      transporte: 'Gestionar manifiestos, guías y documentación manualmente puede consumir <strong>8–12 horas semanales</strong>.',
+      educacion: 'En servicios profesionales, las tareas administrativas pueden consumir hasta el <strong>30% del tiempo facturable</strong>.',
+      otro: 'Las tareas administrativas repetitivas pueden consumir entre <strong>2–4 horas diarias</strong> del dueño o equipo.'
+    }
+  };
+
+  const painData = {
+    inventario: {
+      headline: 'El inventario es el punto ciego más caro',
+      getText: (sector) => `Sin visibilidad en tiempo real, siempre estás reaccionando — comprando de más, quedándote sin stock en el peor momento, o inmovilizando capital en productos que no rotan. ${sectorFinancials.inventario[sector] || sectorFinancials.inventario.otro}`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Registro de entradas y salidas por voz o WhatsApp — sin tipear, sin planillas, sin interrumpir el ritmo de trabajo',
+          'Alertas automáticas de stock mínimo antes de quedarte sin producto — no después',
+          'Identificación de qué producto te genera más margen real y cuál solo ocupa espacio y capital',
+          'Proyección de cuándo necesitas reponer, basada en tu ritmo de venta actual'
+        ];
+        if (urgency === 'preocupado') base.unshift('Cálculo diario de cuánto capital tienes inmovilizado en inventario parado — para tomar decisiones inmediatas de liquidez');
+        if (channel === 'whatsapp') base.push('Respuestas automáticas de disponibilidad de stock a clientes por WhatsApp, 24/7');
+        return base.slice(0,4);
+      },
+      secondSummary: 'El inventario es capital congelado que no se ve hasta que duele — y cuando duele, ya es tarde.'
+    },
+    cobros: {
+      headline: 'El fiado sin control es pérdida silenciosa',
+      getText: (sector) => `El crédito informal es parte de la realidad comercial ecuatoriana — y en un ${sectorNames[sector] || 'negocio'}, nadie puede permitirse ignorarlo. ${sectorFinancials.cobros[sector] || sectorFinancials.cobros.otro} Tu capital trabajando para otros, sin interés, sin fecha clara.`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Registro completo de cartera por cliente — quién debe, cuánto exactamente, desde qué fecha, sin papel ni memoria',
+          'Alertas antes de que los cobros se vuelvan incómodos — el momento de cobrar es antes de que el cliente olvide, no después',
+          'Mensajes de cobranza por WhatsApp redactados con el tono correcto: directos sin dañar la relación',
+          'Proyección de flujo de caja real incluyendo lo que te deben — no solo lo que tienes en caja',
+          'Identificación de clientes con patrón de pago lento para decidir a quién seguir dando crédito'
+        ];
+        if (urgency === 'preocupado') base.unshift('Visibilidad inmediata de tu cartera total: cuánto te deben hoy, qué vence esta semana, qué ya prescribió');
+        return base.slice(0,4);
+      },
+      secondSummary: 'El dinero que no llega no duele de inmediato — pero acumula hasta que afecta la caja.'
+    },
+    proveedores: {
+      headline: 'Lo que pagas de más a proveedores es margen que no ves',
+      getText: (sector) => `Sin comparación sistemática, la mayoría de negocios pagan de más sin saberlo — no por descuido, sino porque comparar manualmente lleva tiempo que no tienes. ${sectorFinancials.proveedores[sector] || sectorFinancials.proveedores.otro}`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Comparación automática de cotizaciones entre proveedores — en segundos, no en horas',
+          'Historial de precios por proveedor y producto para negociar con datos reales sobre la mesa',
+          'Órdenes de compra generadas automáticamente cuando el stock llega al mínimo definido',
+          'Alertas de mejores condiciones disponibles en el mercado para tus productos más comprados',
+          'Análisis de qué proveedor cumple mejor en precio, plazo y calidad — no solo en precio'
+        ];
+        return base.slice(0,4);
+      },
+      secondSummary: 'Proveedores es la palanca de costos que más se descuida — y donde el ahorro aparece más rápido.'
+    },
+    personal: {
+      headline: 'Gestionar un equipo pequeño consume más de lo que parece',
+      getText: (sector) => `Entre turnos, ausencias, vacaciones y liquidaciones, el tiempo del dueño en gestión de personal puede volverse el costo más silencioso del negocio. ${sectorFinancials.personal[sector] || sectorFinancials.personal.otro} Y los errores aquí tienen consecuencias humanas, no solo financieras.`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Gestión de turnos y horarios por WhatsApp — sin hojas de cálculo, sin mensajes de grupo caóticos',
+          'Alertas de contratos, documentos laborales y obligaciones del IESS próximas a vencer',
+          'Registro de asistencia y horas extra sin papel ni sistema complejo — solo WhatsApp',
+          'Cálculo automático de liquidaciones, décimos y beneficios de ley cuando se necesitan',
+          'Identificación de patrones de ausentismo por persona y período para anticipar problemas'
+        ];
+        return base.slice(0,4);
+      },
+      secondSummary: 'Personal es el recurso más sensible — errores aquí tienen consecuencias humanas y también legales.'
+    },
+    clientes: {
+      headline: 'Retener un cliente cuesta 5 veces menos que conseguir uno nuevo',
+      getText: (sector) => `Sin seguimiento activo y sin presencia digital constante, los clientes se van silenciosamente — muchas veces hacia la competencia sin que el dueño se entere a tiempo. ${sectorFinancials.clientes[sector] || sectorFinancials.clientes.otro}`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Generación automática de contenido para redes — textos, promociones y respuestas a reseñas en segundos',
+          'Seguimiento post-venta por WhatsApp para fidelizar sin esfuerzo: el cliente siente atención, tú no gastas tiempo',
+          'Detección temprana de clientes que están comprando menos — para actuar antes de perderlos',
+          'Campañas de reactivación para clientes inactivos con el mensaje correcto en el momento correcto',
+          'Respuestas automáticas a consultas frecuentes en redes y WhatsApp — ninguna oportunidad sin respuesta'
+        ];
+        if (channel === 'whatsapp') base.unshift('Asistente de ventas por WhatsApp que responde, cotiza y registra pedidos las 24 horas — sin intervención tuya');
+        if (channel === 'redes') base.unshift('Gestión automatizada de mensajes y comentarios en redes — ningún cliente sin respuesta en menos de 2 minutos');
+        return base.slice(0,4);
+      },
+      secondSummary: 'Marketing es el área donde más se infrainvierte en negocios pequeños — y donde la IA nivela la cancha.'
+    },
+    tiempo: {
+      headline: 'El tiempo del dueño vale demasiado para gastarlo en tareas repetitivas',
+      getText: (sector) => `En un ${sectorNames[sector] || 'negocio'}, el dueño suele ser al mismo tiempo vendedor, administrador, cobrador y asistente técnico. ${sectorFinancials.tiempo[sector] || sectorFinancials.tiempo.otro} Eso es tiempo que no está en hacer crecer el negocio.`,
+      getBullets: (sector, channel, urgency) => {
+        const base = [
+          'Asistente de atención al cliente 24/7 por WhatsApp — responde preguntas frecuentes sin que tengas que estar',
+          'Registro de ventas, gastos y movimientos por voz o mensaje — el sistema escucha y organiza solo',
+          'Informes automáticos del estado del negocio cada mañana — sin abrir Excel, sin calcular nada',
+          'Generación de presupuestos, facturas y cotizaciones en segundos desde el celular',
+          'Recordatorios automáticos de tareas, pagos y seguimientos — para que nada se caiga entre las grietas'
+        ];
+        if (channel === 'whatsapp') base.unshift('Integración directa con tu WhatsApp actual — sin cambiar de plataforma, sin que tus clientes noten el cambio');
+        return base.slice(0,4);
+      },
+      secondSummary: 'Automatizar lo repetitivo no es lujo — es recuperar el tiempo para lo que solo tú puedes hacer.'
+    }
+  };
+
+  const urgencySignalData = {
+    tranquilo: { dot: 'green', text: '<strong>Situación estable</strong> — buena base para invertir en sistemas de control y crecimiento antes de que los problemas aparezcan. Prevenir cuesta menos que remediar.' },
+    ajustado: { dot: 'amber', text: '<strong>Margen reducido</strong> — el foco debe estar en reducir pérdidas invisibles (inventario parado, fiado sin cobrar, costos ocultos) antes que en crecimiento. El orden paga más rápido que la expansión.' },
+    preocupado: { dot: 'red', text: '<strong>Prioridad financiera urgente</strong> — las herramientas más inmediatas son las que dan visibilidad de caja y cobros pendientes. Primero estabilizar la liquidez, luego optimizar operaciones.' }
+  };
+
+  const priorText = {
+    nunca: 'No has encontrado nada que funcione hasta ahora — eso indica que el problema es real y persistente, no coyuntural. La diferencia con la IA conversacional es que se adapta a cómo tú trabajas, no al revés.',
+    probe: 'Ya intentaste algo y no funcionó — información valiosa. La razón más frecuente es que las herramientas genéricas no entienden el contexto de un negocio ecuatoriano: el fiado, la informalidad, el WhatsApp como canal principal. Esa es exactamente la diferencia.',
+    esfuerzo: 'Ya tienes un sistema, pero te cuesta demasiado tiempo mantenerlo — el proceso es correcto pero la herramienta no está hecha para tu ritmo de trabajo. La IA elimina la fricción sin cambiar lo que ya funciona.',
+    ninguno: 'Aún no has atacado el problema — lo que significa que el impacto potencial de resolverlo es inmediato, sin fricción de transición ni hábitos que cambiar.'
+  };
+
+  const maturityData = {
+    cuaderno: { text: 'Llevas el control a mano — eso demuestra disciplina real. La IA puede multiplicar esa disciplina sin pedirte computadora ni capacitación: registro por voz, resúmenes automáticos por WhatsApp, todo en tu celular.', pct: 20 },
+    excel: { text: 'Ya tienes más visibilidad que la mayoría de negocios de tu tamaño. La IA lleva eso al siguiente nivel — análisis automático, alertas en tiempo real, sin que tengas que actualizar nada manualmente.', pct: 50 },
+    app: { text: 'Ya usas tecnología — la transición a IA conversacional va a ser natural. El salto no es de herramienta, es de capacidad: pasar de un sistema que registra a uno que piensa, alerta y recomienda.', pct: 65 },
+    memoria: { text: 'Llevar todo de memoria funciona hasta cierto punto — después se convierte en el mayor riesgo del negocio. La IA puede empezar a registrar todo hoy, solo con mensajes de WhatsApp. Sin cambiar nada más.', pct: 10 },
+    nada: { text: 'Empezar desde cero tiene ventajas reales: se construye bien desde el inicio, sin malos hábitos que deshacer, sin datos incorrectos que limpiar. Mejor punto de partida de lo que parece.', pct: 5 },
+    mixto: { text: 'Una mezcla de herramientas es lo más común en negocios reales — y también lo más desordenado. La IA puede centralizar todo en un solo canal sin pedirte que abandones lo que ya funciona.', pct: 35 }
+  };
+
+  const channelContext = {
+    presencial: 'Con clientes que vienen al local, la velocidad de atención y la experiencia en el punto de venta son el diferenciador real.',
+    whatsapp: 'Ya operas por WhatsApp — el canal más natural para integrar IA de forma inmediata, sin pedir nada nuevo a tus clientes ni cambiar cómo trabajas.',
+    telefono: 'El teléfono es confiable, pero limita la escalabilidad. WhatsApp con IA puede hacer el mismo trabajo con más capacidad y sin perderse nada.',
+    redes: 'Las redes generan demanda — la clave es tener un sistema que capture y atienda esa demanda en segundos, sin que nada se pierda.',
+    referidos: 'Los referidos son el activo más valioso. La IA puede amplificar ese capital relacional de forma sistemática, sin que dependa solo de que te acuerdes de hacer el seguimiento.',
+    mixto: 'Operar por múltiples canales multiplica la oportunidad y la complejidad. Un sistema centralizado evita que nada se pierda entre canales.'
+  };
+
+  // Build WhatsApp data summary for Fernanda
+  function buildWAMessage(intent) {
+    const sectorFull = { restaurante:'Restaurante/Cafetería', tienda:'Tienda/Minimarket/Ferretería', taller:'Taller/Automotriz', salud:'Clínica/Farmacia/Salud', construccion:'Construcción/Industria', transporte:'Transporte/Distribuidora', educacion:'Educación/Servicios', otro:'Otro' };
+    const sizeFull = { solo:'Solo (1 persona)', pequeno:'2–5 personas', mediano:'6–20 personas', grande:'Más de 20' };
+    const channelFull = { presencial:'En persona', whatsapp:'WhatsApp', telefono:'Teléfono', redes:'Redes sociales', referidos:'Referidos', mixto:'Varios canales' };
+    const controlFull = { cuaderno:'Cuaderno/papel', excel:'Excel', app:'App/sistema', memoria:'De memoria', nada:'Sin sistema', mixto:'Mezcla' };
+    const urgencyFull = { tranquilo:'Estable ✅', ajustado:'Ajustada ⚠️', preocupado:'Bajo presión 🔴' };
+    const priorFull = { nunca:'Nunca encontró solución', probe:'Probó algo, no funcionó', esfuerzo:'Lo maneja pero con esfuerzo', ninguno:'No ha intentado' };
+    const painsFull = { inventario:'Inventario/stock', cobros:'Cobros/fiado', proveedores:'Proveedores', personal:'Personal/turnos', clientes:'Clientes/marketing', tiempo:'Tiempo/admin' };
+
+    const bizName = document.getElementById('bizName').value.trim();
+    const painsText = state.pains.map(p => painsFull[p] || p).join(' + ');
+    const intentLine = intent === 'learn' ? 'Me interesa saber más sobre lo que puede hacer la IA para mi negocio.' : 'Me interesa el diagnóstico completo.';
+
+    return `📊 *Diagnóstico Demo — Pulso Rápido*\n\n` +
+      (bizName ? `*Negocio:* ${bizName}\n` : '') +
+      `*Sector:* ${sectorFull[state.sector] || '—'}\n` +
+      `*Equipo:* ${sizeFull[state.size] || '—'}\n` +
+      `*Dolor principal:* ${painsText || '—'}\n` +
+      `*Canal principal:* ${channelFull[state.channel] || '—'}\n` +
+      `*Control actual:* ${controlFull[state.control] || '—'}\n` +
+      `*Situación de caja:* ${urgencyFull[state.urgency] || '—'}\n` +
+      `*Ha intentado resolver:* ${priorFull[state.prior] || '—'}\n\n` +
+      intentLine;
+  }
+
+  function generateResult() {
+    document.getElementById('step7').classList.remove('active');
+    document.getElementById('stepsContent').style.display = 'none';
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('resultContent').style.display = 'block';
+    document.getElementById('result').classList.add('active');
+
+    const primary = state.pains[0] || 'tiempo';
+    const secondary = state.pains[1] || null;
+    const pd = painData[primary];
+    const md = maturityData[state.control] || maturityData['mixto'];
+    const sector = state.sector || 'otro';
+    const channel = state.channel || 'mixto';
+    const urgency = state.urgency || 'ajustado';
+
+    // Headline
+    document.getElementById('resultHeadline').textContent = pd.headline;
+
+    // Pills
+    const pillsEl = document.getElementById('resultPills');
+    const urgencyColors = { tranquilo:'green', ajustado:'amber', preocupado:'red' };
+    const urgencyLabels = { tranquilo:'Caja estable', ajustado:'Caja ajustada', preocupado:'Caja bajo presión' };
+    pillsEl.innerHTML = `
+      <span class="pill sector">${sectorLabels[sector]}</span>
+      <span class="pill ${urgencyColors[urgency]}">${urgencyLabels[urgency]}</span>
+    `;
+
+    // Pain text
+    const ch = channelContext[channel] || '';
+    document.getElementById('resultPainText').innerHTML = pd.getText(sector) + (ch ? `<br><br><strong>${ch}</strong>` : '');
+
+    // Secondary pain
+    if (secondary) {
+      document.getElementById('secondPainCard').style.display = 'block';
+      document.getElementById('resultSecondPain').innerHTML = `<strong>${painData[secondary].headline}.</strong> ${painData[secondary].secondSummary}`;
+    }
+
+    // Urgency + prior signals
+    const us = urgencySignalData[urgency];
+    const pr = priorText[state.prior] || priorText['nunca'];
+    document.getElementById('urgencySignals').innerHTML = `
+      <div class="urgency-signal"><div class="us-dot ${us.dot}"></div><div class="us-text">${us.text}</div></div>
+      <div class="urgency-signal"><div class="us-dot amber"></div><div class="us-text">${pr}</div></div>
+    `;
+
+    // Bullets — sector + channel + urgency specific
+    const bullets = pd.getBullets(sector, channel, urgency);
+    const list = document.getElementById('resultIntiList');
+    bullets.forEach(b => { const li = document.createElement('li'); li.innerHTML = b; list.appendChild(li); });
+
+    // Maturity
+    document.getElementById('resultMaturityText').innerHTML = md.text;
+    document.getElementById('maturityPct').textContent = md.pct + '%';
+    setTimeout(() => { document.getElementById('maturityBar').style.width = md.pct + '%'; }, 100);
+
+    // Update WA link with encoded data
+    document.getElementById('btnWA').href = `https://wa.me/593979841655?text=${encodeURIComponent(buildWAMessage('full'))}`;
+
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
+  }
+
+
+  // ── VOICE OUTPUT ──
+  let speaking = false;
+  let utterances = [];
+
+  function buildSpeechText() {
+    const headline = document.getElementById('resultHeadline').textContent;
+    const painText = document.getElementById('resultPainText').innerText;
+    const bullets = Array.from(document.querySelectorAll('#resultIntiList li')).map(li => li.innerText).join('. ');
+    const maturity = document.getElementById('resultMaturityText').innerText;
+    const secondPain = document.getElementById('secondPainCard').style.display !== 'none'
+      ? document.getElementById('resultSecondPain').innerText : '';
+
+    return [
+      headline + '.',
+      painText,
+      secondPain,
+      'Esto incluye, entre otras cosas, lo que la inteligencia artificial puede hacer: ' + bullets + '.',
+      maturity
+    ].filter(Boolean).join(' ');
+  }
+
+  function toggleSpeech() {
+    if (speaking) {
+      window.speechSynthesis.cancel();
+      speaking = false;
+      document.getElementById('voiceBtn').classList.remove('speaking');
+      document.getElementById('voiceStop').textContent = '';
+      document.querySelector('#voiceBtn .voice-label').textContent = 'Escuchar mi diagnóstico en voz alta';
+      return;
+    }
+
+    if (!window.speechSynthesis) {
+      alert('Tu navegador no soporta la lectura en voz alta. Prueba con Chrome en Android.');
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const text = buildSpeechText();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'es-EC';
+    utter.rate = 0.92;
+    utter.pitch = 1.0;
+    utter.volume = 1.0;
+
+    // Try to pick a Spanish voice
+    const voices = window.speechSynthesis.getVoices();
+    const spanish = voices.find(v => v.lang.startsWith('es')) || null;
+    if (spanish) utter.voice = spanish;
+
+    utter.onstart = () => {
+      speaking = true;
+      document.getElementById('voiceBtn').classList.add('speaking');
+      document.querySelector('#voiceBtn .voice-label').textContent = 'Leyendo diagnóstico...';
+      document.getElementById('voiceStop').textContent = 'Toca para detener';
+    };
+    utter.onend = utter.onerror = () => {
+      speaking = false;
+      document.getElementById('voiceBtn').classList.remove('speaking');
+      document.getElementById('voiceStop').textContent = '';
+      document.querySelector('#voiceBtn .voice-label').textContent = 'Escuchar mi diagnóstico en voz alta';
+    };
+
+    window.speechSynthesis.speak(utter);
+  }
+
+  // Stop speech on restart
+  function restart() {
+    if (speaking) { window.speechSynthesis.cancel(); speaking = false; }
+    Object.keys(state).forEach(k => { state[k] = Array.isArray(state[k]) ? [] : null; });
+    currentStep = 0;
+    document.querySelectorAll('.opt, .urgency-opt, .pain-opt').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.btn-next').forEach(b => b.classList.remove('visible'));
+    document.getElementById('result').classList.remove('active');
+    document.getElementById('resultContent').style.display = 'none';
+    document.getElementById('resultIntiList').innerHTML = '';
+    document.getElementById('secondPainCard').style.display = 'none';
+    document.getElementById('maturityBar').style.width = '0%';
+    document.getElementById('welcome').style.display = 'block';
+    document.getElementById('stepsContent').scrollIntoView({behavior:'instant',block:'start'});
+  }
+</script>
+</body>
+</html>
